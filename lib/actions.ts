@@ -1,6 +1,6 @@
 import {updateRestForSets,actualSetErrors,plannedWorkStatus} from './workout-rules';
 import {prescriptionError,normalizePlan} from './prescription';
-import { State, Program, CycleDay, ActualExercise, Session, PlanExercise, Occurrence, exerciseLibrary, CYCLE_LENGTHS, uid, clone, activeSchedule, getVersion, projection, completion, actualFromPlan, dayNumber, ensureCycleState, currentProgram, nextProgramWorkout, advanceProgram, activateProgramVersion, workoutDays } from './cadence';
+import { State, BodyMetricLog, Program, CycleDay, ActualExercise, Session, PlanExercise, Occurrence, exerciseLibrary, CYCLE_LENGTHS, uid, clone, activeSchedule, getVersion, projection, completion, actualFromPlan, dayNumber, ensureCycleState, currentProgram, nextProgramWorkout, advanceProgram, activateProgramVersion, workoutDays } from './cadence';
 export class RuleError extends Error{constructor(message:string,public code='INVALID',public details:unknown=null){super(message)}}
 const assert=(condition:unknown,message:string,code?:string,details?:unknown)=>{if(!condition)throw new RuleError(message,code,details)};
 function validDate(d:unknown):asserts d is string{assert(typeof d==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(d)&&Number.isFinite(dayNumber(d))&&new Date(dayNumber(d)*86400000).toISOString().slice(0,10)===d,'Choose a valid calendar date.')}
@@ -41,7 +41,41 @@ export function act(s:State,input:any,today:string,timezone:string):State{
  case 'createCustomExercise':{s.customExercises??=[];const name=text(input.name);assert(!exerciseLibrary(s).some(e=>e.name.toLowerCase()===name.toLowerCase()),'An exercise with this name already exists.');s.customExercises.push({id:'custom-'+uid(),source:'USER',name,muscle:metadata(input.muscle),equipment:metadata(input.equipment),notes:metadata(input.notes,4000),archived:false});break}
  case 'editCustomExercise':{const e=s.customExercises?.find(e=>e.id===input.id&&e.source==='USER');assert(e,'Only your custom exercises can be edited.');const name=text(input.name);assert(!exerciseLibrary(s).some(other=>other.id!==e!.id&&other.name.toLowerCase()===name.toLowerCase()),'An exercise with this name already exists.');Object.assign(e!,{name,muscle:metadata(input.muscle),equipment:metadata(input.equipment),notes:metadata(input.notes,4000)});break}
  case 'archiveCustomExercise':{const e=s.customExercises?.find(e=>e.id===input.id&&e.source==='USER');assert(e,'Only your custom exercises can be archived.');assert(typeof input.archived==='boolean','Choose archive or restore.');e!.archived=input.archived;break}
- case 'settings':{assert(['kg','lb'].includes(input.unit),'Choose kg or lb.');num(input.defaultRest,0,3600,true);s.settings={unit:input.unit,defaultRest:input.defaultRest};break}
+ case 'settings':{assert(['kg','lb'].includes(input.unit),'Choose kg or lb.');num(input.defaultRest,0,3600,true);const lengthUnit=['cm','in'].includes(input.lengthUnit)?input.lengthUnit:(s.settings?.lengthUnit||'cm');s.settings={unit:input.unit,defaultRest:input.defaultRest,lengthUnit};break}
+  case 'logBodyMetric':{
+   assert(input&&typeof input==='object','Enter valid body metric data.');
+   const weight=Number(input.weight);
+   assert(Number.isFinite(weight)&&weight>0&&weight<1000,'Enter a valid body weight.');
+   const id=(typeof input.id==='string'&&input.id.trim())?input.id.trim():uid();
+   const timestamp=(typeof input.timestamp==='string'&&input.timestamp.trim())?input.timestamp.trim():now;
+   const metric:BodyMetricLog={id,timestamp,weight:Math.round(weight*100)/100};
+   if(typeof input.note==='string'&&input.note.trim())metric.note=input.note.trim().slice(0,150);
+   const optNum=(val:unknown,min:number,max:number)=>{
+    if(val===undefined||val===null||val==='')return undefined;
+    const n=Number(val);
+    assert(Number.isFinite(n)&&n>=min&&n<=max,`Measurement must be between ${min} and ${max}.`);
+    return Math.round(n*100)/100;
+   };
+   const bf=optNum(input.bodyFatPercentage,1,99);if(bf!==undefined)metric.bodyFatPercentage=bf;
+   const mm=optNum(input.muscleMass,1,500);if(mm!==undefined)metric.muscleMass=mm;
+   const upperKeys=['neck','shoulders','chest','leftArm','rightArm','leftForearm','rightForearm'] as const;
+   for(const k of upperKeys){const val=optNum(input[k],1,500);if(val!==undefined)metric[k]=val;}
+   const lowerKeys=['waist','abdomen','hips','leftThigh','rightThigh','leftCalf','rightCalf'] as const;
+   for(const k of lowerKeys){const val=optNum(input[k],1,500);if(val!==undefined)metric[k]=val;}
+   s.bodyMetrics??=[];
+   const existingIdx=s.bodyMetrics.findIndex(m=>m.id===id);
+   if(existingIdx>=0)s.bodyMetrics[existingIdx]=metric;
+   else s.bodyMetrics.push(metric);
+   s.bodyMetrics.sort((a,b)=>b.timestamp.localeCompare(a.timestamp));
+   break;
+  }
+  case 'deleteBodyMetric':{
+   assert(input.confirmed===true,'Confirm before deleting this entry.');
+   assert(typeof input.id==='string','Metric ID required.');
+   s.bodyMetrics??=[];
+   s.bodyMetrics=s.bodyMetrics.filter(m=>m.id!==input.id);
+   break;
+  }
  default:throw new RuleError('Unknown action.');
  }
  return s;

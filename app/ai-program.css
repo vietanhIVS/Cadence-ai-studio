@@ -1,0 +1,415 @@
+/* ==========================================================================
+   AI Program Generator - Liquid Glass & iPhone 15 Pro Responsive Styles
+   ========================================================================== */
+
+.ai-generate-program-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 8px 18px 8px 14px;
+  border-radius: 9999px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #FFFFFF;
+  background: linear-gradient(135deg, #4F46E5 0%, #2563EB 50%, #7C3AED 100%);
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  backdrop-filter: blur(20px) saturate(190%);
+  -webkit-backdrop-filter: blur(20px) saturate(190%);
+  box-shadow: 0 4px 18px rgba(79, 70, 229, 0.35), inset 0 1px 1.5px rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+  transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.ai-generate-program-btn::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.25) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.ai-generate-program-btn:hover:not(:disabled) {
+  transform: translateY(-1.5px);
+  box-shadow: 0 8px 25px rgba(79, 70, 229, 0.48), inset 0 1px 1.5px rgba(255, 255, 255, 0.8);
+}
+
+.ai-generate-program-btn:hover:not(:disabled)::after {
+  opacity: 1;
+}
+
+.ai-generate-program-btn:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+.ai-onboarding-badge {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.25);
+  color: #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  animation: ai-badge-pulse 2.2s infinite ease-in-out;
+}
+
+@keyframes ai-badge-pulse {
+  0%, 100% {
+    transform: scale(1);
+    background: rgba(255, 255, 255, 0.25);
+  }
+  50% {
+    transform: scale(1.06);
+    background: rgba(255, 255, 255, 0.4);
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+  }
+}
+
+/* AI Hero Card in Programs Tab */
+.ai-programs-hero-card {
+  margin: 16px 0 24px;
+  padding: 20px 22px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, rgba(238, 242, 255, 0.85) 0%, rgba(224, 231, 255, 0.65) 60%, rgba(243, 232, 255, 0.8) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  box-shadow: 0 10px 30px rgba(79, 70, 229, 0.08), inset 0 1px 1px #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.ai-programs-hero-text {
+  flex: 1;
+  min-width: 240px;
+}
+
+.ai-programs-hero-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.ai-programs-hero-tag {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #4338CA;
+  background: rgba(99, 102, 241, 0.15);
+  padding: 3px 9px;
+  border-radius: 999px;
+  border: 1px solid rgba(99, 102, 241, 0.25);
+}
+
+.ai-programs-hero-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #1E1B4B;
+  letter-spacing: -0.01em;
+  margin: 0 0 4px 0;
+}
+
+.ai-programs-hero-desc {
+  font-size: 0.85rem;
+  color: #475569;
+  line-height: 1.45;
+  margin: 0;
+}
+
+/* Dual Creation Widgets in Programs Tab */
+.programs-creation-widgets {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin: 16px 0 24px;
+}
+
+.programs-creation-card {
+  padding: 20px 22px;
+  border-radius: 20px;
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 16px;
+  transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+.programs-creation-card.ai-highlight {
+  background: linear-gradient(135deg, rgba(238, 242, 255, 0.9) 0%, rgba(224, 231, 255, 0.75) 60%, rgba(243, 232, 255, 0.85) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  box-shadow: 0 10px 30px rgba(79, 70, 229, 0.08), inset 0 1px 1px #FFFFFF;
+}
+
+.programs-creation-card.manual-widget {
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.04), inset 0 1px 1px #FFFFFF;
+}
+
+.programs-creation-card.manual-widget:hover {
+  background: rgba(255, 255, 255, 0.92);
+  border-color: rgba(148, 163, 184, 0.6);
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.08), inset 0 1px 1px #FFFFFF;
+  transform: translateY(-1.5px);
+}
+
+.programs-creation-card.ai-highlight:hover {
+  box-shadow: 0 14px 34px rgba(79, 70, 229, 0.14), inset 0 1px 1px #FFFFFF;
+  transform: translateY(-1.5px);
+}
+
+.creation-card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+}
+
+.creation-card-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 2px;
+}
+
+.creation-card-title {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #0F172A;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+.creation-card-desc {
+  font-size: 0.825rem;
+  color: #475569;
+  line-height: 1.45;
+  margin: 0;
+}
+
+.manual-tag {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #475569;
+  background: rgba(148, 163, 184, 0.15);
+  padding: 3px 9px;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.25);
+}
+
+.manual-create-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 8px 18px;
+  border-radius: 9999px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #1E293B;
+  background: rgba(255, 255, 255, 0.85);
+  border: 1.5px solid rgba(226, 232, 240, 0.9);
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04), inset 0 1px 1px #FFFFFF;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  align-self: flex-start;
+}
+
+.manual-create-btn:hover {
+  background: #FFFFFF;
+  border-color: #94A3B8;
+  color: #0F172A;
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.08);
+  transform: translateY(-1px);
+}
+
+.manual-create-btn:active {
+  transform: scale(0.98);
+}
+
+@media (prefers-color-scheme: dark) {
+  .programs-creation-card.ai-highlight {
+    background: linear-gradient(135deg, rgba(30, 27, 75, 0.6) 0%, rgba(49, 46, 129, 0.4) 60%, rgba(59, 7, 100, 0.4) 100%);
+    border-color: rgba(99, 102, 241, 0.35);
+  }
+  .programs-creation-card.manual-widget {
+    background: rgba(30, 41, 59, 0.65);
+    border-color: rgba(51, 65, 85, 0.8);
+  }
+  .programs-creation-card.manual-widget:hover {
+    background: rgba(30, 41, 59, 0.85);
+    border-color: rgba(148, 163, 184, 0.5);
+  }
+  .creation-card-title {
+    color: #F8FAFC;
+  }
+  .creation-card-desc {
+    color: #94A3B8;
+  }
+  .manual-create-btn {
+    background: rgba(15, 23, 42, 0.7);
+    color: #E2E8F0;
+    border-color: rgba(51, 65, 85, 0.9);
+  }
+  .manual-create-btn:hover {
+    background: rgba(30, 41, 59, 0.9);
+    color: #FFFFFF;
+  }
+}
+
+@media (max-width: 800px) {
+  .programs-creation-widgets {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .manual-create-btn,
+  .ai-programs-hero-card .ai-generate-program-btn,
+  .programs-creation-card .ai-generate-program-btn {
+    width: 100%;
+    align-self: stretch;
+  }
+}
+
+/* Modal and dialog customizations */
+.ai-program-modal-content {
+  box-shadow: 0 25px 60px -15px rgba(15, 23, 42, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.8), inset 0 1px 1px rgba(255, 255, 255, 0.95);
+}
+
+/* ==========================================================================
+   AI Coach Modal - Daylight Liquid Glass Blue Cards & Strict Alignment
+   ========================================================================== */
+.ai-coach-card {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  gap: 12px;
+  width: 100%;
+  border-radius: 1rem;
+  padding: 1.125rem 1.25rem;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+.ai-coach-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 0.75rem;
+}
+
+.ai-coach-card-body {
+  text-align: left;
+  line-height: 1.5;
+  width: 100%;
+}
+
+.ai-coach-card-active {
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 4px 16px rgba(37, 99, 235, 0.05), inset 0 1px 1px rgba(255, 255, 255, 0.9);
+  cursor: pointer;
+}
+
+.ai-coach-card-active:hover {
+  background: rgba(255, 255, 255, 0.92);
+  border-color: rgba(96, 165, 250, 0.8);
+  box-shadow: 0 8px 24px rgba(37, 99, 235, 0.12), inset 0 1px 1px #FFFFFF;
+  transform: translateY(-1px);
+}
+
+.ai-coach-card-disabled {
+  background: rgba(248, 250, 252, 0.72);
+  border: 1px solid rgba(226, 232, 240, 0.85);
+  opacity: 0.75;
+  cursor: not-allowed !important;
+}
+
+.ai-coach-notice-box {
+  background: rgba(254, 243, 199, 0.45);
+  border: 1px solid rgba(245, 158, 11, 0.35);
+  border-radius: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  margin-top: 0.625rem;
+  text-align: left;
+}
+
+.ai-coach-warning-box {
+  background: rgba(245, 158, 11, 0.08);
+  border-left: 2px solid #F59E0B;
+  border-radius: 0 0.5rem 0.5rem 0;
+  padding: 0.5rem 0.75rem;
+  margin-top: 0.5rem;
+  text-align: left;
+}
+
+@media (prefers-color-scheme: dark) {
+  .ai-coach-card-active {
+    background: rgba(30, 41, 59, 0.65);
+    border-color: rgba(51, 65, 85, 0.8);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+  }
+  .ai-coach-card-active:hover {
+    background: rgba(30, 41, 59, 0.9);
+    border-color: rgba(96, 165, 250, 0.5);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  }
+  .ai-coach-card-disabled {
+    background: rgba(15, 23, 42, 0.5);
+    border-color: rgba(30, 41, 59, 0.8);
+    opacity: 0.65;
+  }
+  .ai-coach-notice-box {
+    background: rgba(245, 158, 11, 0.12);
+    border-color: rgba(245, 158, 11, 0.3);
+  }
+  .ai-coach-warning-box {
+    background: rgba(245, 158, 11, 0.12);
+  }
+}
+
+@media (max-width: 650px) {
+  .ai-programs-hero-card {
+    padding: 16px;
+    gap: 14px;
+  }
+  .ai-programs-hero-text {
+    min-width: 100%;
+  }
+  .ai-programs-hero-card .ai-generate-program-btn {
+    width: 100%;
+    min-height: 46px;
+  }
+  .programs-header-actions {
+    width: 100%;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .programs-header-actions button {
+    flex: 1;
+    min-width: 140px;
+  }
+}

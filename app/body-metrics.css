@@ -1,0 +1,826 @@
+/* ==========================================================================
+   Cadence - Body Metrics & Segmented Navigation Styling
+   Liquid Glass aesthetic with refractive material, frosted backdrops,
+   and iPhone 15 Pro responsive touch targets.
+   ========================================================================== */
+
+/* Sub-nav switcher in History (Workouts vs Body Metrics) */
+.history-subnav-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.history-subnav-pills {
+  display: inline-flex;
+  padding: 4px;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  border-radius: 999px;
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.05), inset 0 1px 1px rgba(255, 255, 255, 0.9);
+  max-width: 100%;
+}
+
+.history-subnav-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 18px;
+  min-height: 40px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #4C5D73;
+  background: transparent;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  white-space: nowrap;
+}
+
+.history-subnav-pill:hover:not(.active) {
+  background: rgba(255, 255, 255, 0.6);
+  color: #0F172A;
+}
+
+.history-subnav-pill.active {
+  background: linear-gradient(135deg, #2563EB, #1D4ED8);
+  color: #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.32), inset 0 1px 1.5px rgba(255, 255, 255, 0.6);
+}
+
+.history-subnav-pill.active svg {
+  color: #FFFFFF;
+}
+
+/* --------------------------------------------------------------------------
+   Home Screen: Compact Body Metrics Summary Widget
+   -------------------------------------------------------------------------- */
+.body-metrics-summary-widget {
+  margin-bottom: 20px;
+  padding: 16px 20px;
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05), inset 0 1px 1px rgba(255, 255, 255, 0.95);
+  transition: transform 0.18s, box-shadow 0.18s;
+}
+
+.widget-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.18);
+}
+
+.widget-header:hover .widget-history-link {
+  color: #1D4ED8;
+  transform: translateX(2px);
+}
+
+.widget-icon-plate {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: rgba(37, 99, 235, 0.08);
+  border: 1px solid rgba(37, 99, 235, 0.15);
+}
+
+.widget-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #0F172A;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.widget-subtitle {
+  font-size: 12px;
+  color: #64748B;
+  display: block;
+  margin-top: 2px;
+}
+
+.widget-history-link {
+  transition: transform 0.18s ease, color 0.18s ease;
+}
+
+.widget-body {
+  padding-top: 14px;
+}
+
+.widget-stat-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.widget-main-stat {
+  cursor: pointer;
+  flex: 1;
+  min-width: 0;
+}
+
+.widget-value {
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: #0F172A;
+  line-height: 1;
+}
+
+.widget-unit {
+  font-size: 15px;
+  font-weight: 600;
+  color: #64748B;
+}
+
+.widget-delta-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+  flex-wrap: wrap;
+}
+
+.widget-delta-badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 999px;
+  line-height: 1.2;
+}
+
+.delta-drop {
+  background: rgba(16, 185, 129, 0.12);
+  color: #059669;
+  border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.delta-gain {
+  background: rgba(37, 99, 235, 0.1);
+  color: #2563EB;
+  border: 1px solid rgba(37, 99, 235, 0.2);
+}
+
+.delta-even, .delta-neutral {
+  background: rgba(148, 163, 184, 0.15);
+  color: #475569;
+  border: 1px solid rgba(148, 163, 184, 0.25);
+}
+
+.widget-secondary-tag {
+  font-size: 12px;
+  font-weight: 600;
+  color: #B45309;
+  background: rgba(245, 158, 11, 0.12);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  padding: 3px 8px;
+  border-radius: 999px;
+}
+
+.widget-quick-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  padding: 10px 18px;
+  border-radius: 14px;
+  font-size: 14px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.widget-empty-state {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.widget-empty-text {
+  font-size: 14px;
+  color: #64748B;
+  margin: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Body Metrics History View (Charts & Log List)
+   -------------------------------------------------------------------------- */
+.body-metrics-history-view {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+
+.metrics-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.metrics-section-title {
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #0F172A;
+  margin: 0;
+}
+
+.metrics-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.metric-stat-card {
+  padding: 14px 16px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+}
+
+.metric-stat-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #64748B;
+}
+
+.metric-stat-value {
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #0F172A;
+  line-height: 1.1;
+}
+
+/* Trend Chart */
+.metric-chart-card {
+  padding: 18px 20px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
+}
+
+.chart-controls-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.chart-tab-pills, .chart-range-pills {
+  display: inline-flex;
+  padding: 3px;
+  gap: 4px;
+  background: rgba(241, 245, 249, 0.8);
+  border-radius: 999px;
+  border: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+.chart-pill, .range-pill {
+  padding: 5px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #64748B;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  min-height: 32px;
+}
+
+.chart-pill.active, .range-pill.active {
+  background: #FFFFFF;
+  color: #0F172A;
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.08);
+  border-color: rgba(203, 213, 225, 0.7);
+}
+
+.chart-svg-container {
+  position: relative;
+  width: 100%;
+}
+
+.metric-line-chart-svg {
+  width: 100%;
+  height: 180px;
+  overflow: visible;
+}
+
+.chart-tooltip-bubble {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  background: rgba(15, 23, 42, 0.9);
+  color: #FFFFFF;
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-size: 12px;
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.2);
+  backdrop-filter: blur(8px);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.chart-axis-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: #94A3B8;
+  font-weight: 600;
+  margin-top: 6px;
+  padding: 0 4px;
+}
+
+.chart-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 16px;
+  text-align: center;
+}
+
+/* Itemized Measurement Log List */
+.itemized-history-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.itemized-history-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: #0F172A;
+  margin: 0;
+}
+
+.metrics-log-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.metric-entry-card {
+  padding: 16px 18px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.03);
+}
+
+.entry-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+}
+
+.entry-date {
+  font-size: 14px;
+  font-weight: 700;
+  color: #0F172A;
+}
+
+.entry-time {
+  font-size: 12px;
+  color: #64748B;
+}
+
+.entry-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.entry-core-stats {
+  padding: 12px 0 8px 0;
+}
+
+.entry-weight-val {
+  font-size: 22px;
+  font-weight: 800;
+  color: #0F172A;
+  letter-spacing: -0.02em;
+}
+
+.entry-delta {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.entry-tag-pill {
+  display: inline-flex;
+  align-items: center;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+}
+
+.entry-circumference-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px dashed rgba(148, 163, 184, 0.2);
+}
+
+.entry-circ-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  background: rgba(241, 245, 249, 0.8);
+  border: 1px solid rgba(203, 213, 225, 0.7);
+  border-radius: 8px;
+  font-size: 12px;
+}
+
+.chip-label {
+  color: #64748B;
+  font-weight: 600;
+}
+
+.chip-val {
+  color: #0F172A;
+  font-weight: 700;
+}
+
+.entry-note-quote {
+  font-size: 13px;
+  color: #475569;
+  font-style: italic;
+  margin: 8px 0 0 0;
+  padding-left: 8px;
+  border-left: 2px solid #94A3B8;
+}
+
+.metrics-empty-panel {
+  text-align: center;
+  padding: 48px 24px;
+}
+
+/* --------------------------------------------------------------------------
+   Modal: Body Metric Entry Dialog
+   -------------------------------------------------------------------------- */
+.body-metric-dialog {
+  max-width: 500px !important;
+  max-height: calc(100dvh - 32px);
+  overflow-y: auto;
+  padding: 24px !important;
+  border-radius: 24px !important;
+}
+
+.body-metric-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 12px;
+}
+
+.metric-primary-card {
+  padding: 16px;
+  border-radius: 16px;
+  background: rgba(241, 245, 249, 0.6);
+  border: 1px solid rgba(203, 213, 225, 0.6);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.metric-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  font-weight: 700;
+  color: #334155;
+}
+
+.metric-unit-badge {
+  font-size: 11px;
+  padding: 2px 7px;
+  background: rgba(37, 99, 235, 0.1);
+  color: #2563EB;
+  border-radius: 6px;
+  font-weight: 700;
+}
+
+.metric-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.metric-weight-input {
+  width: 100%;
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  padding: 10px 60px 10px 16px;
+  border-radius: 14px;
+  border: 1.5px solid rgba(37, 99, 235, 0.3);
+  background: #FFFFFF;
+  color: #0F172A;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.08);
+}
+
+.metric-weight-input:focus {
+  outline: none;
+  border-color: #2563EB;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+}
+
+.metric-unit-suffix {
+  position: absolute;
+  right: 16px;
+  font-size: 16px;
+  font-weight: 700;
+  color: #64748B;
+  pointer-events: none;
+}
+
+.metric-row-split {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.metric-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.metric-sublabel {
+  font-size: 12px;
+  font-weight: 600;
+  color: #475569;
+}
+
+.metric-text-input {
+  width: 100%;
+  min-height: 42px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(203, 213, 225, 0.8);
+  background: #FFFFFF;
+  color: #0F172A;
+  font-size: 15px;
+}
+
+.metric-text-input:focus {
+  outline: none;
+  border-color: #2563EB;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
+}
+
+.metric-input-wrapper-sm {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.metric-input-addon {
+  position: absolute;
+  right: 10px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #64748B;
+  pointer-events: none;
+}
+
+/* Accordion for advanced circumferences */
+.metric-advanced-accordion {
+  border: 1px solid rgba(203, 213, 225, 0.8);
+  border-radius: 16px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.metric-advanced-toggle {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 16px;
+  background: rgba(248, 250, 252, 0.8);
+  border: none;
+  cursor: pointer;
+  min-height: 48px;
+  color: #1E293B;
+  transition: background 0.15s ease;
+}
+
+.metric-advanced-toggle:hover {
+  background: rgba(241, 245, 249, 1);
+}
+
+.metric-badge-count {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 7px;
+  background: rgba(245, 158, 11, 0.15);
+  color: #B45309;
+  border-radius: 6px;
+}
+
+.metric-advanced-content {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background: #FFFFFF;
+}
+
+.metric-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.metric-group-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #1E293B;
+  margin: 0;
+  padding-bottom: 4px;
+  border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+.metric-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.metric-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.metric-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.metric-form-actions button {
+  min-height: 46px;
+  padding-inline: 20px;
+}
+
+/* --------------------------------------------------------------------------
+   Mobile (iPhone 15 Pro, <= 650px & 393px width optimization)
+   -------------------------------------------------------------------------- */
+@media (max-width: 650px) {
+  .body-metrics-summary-widget {
+    padding: 14px 16px;
+    border-radius: 18px;
+  }
+
+  .widget-value {
+    font-size: 26px;
+  }
+
+  .widget-quick-btn {
+    min-height: 44px;
+    padding: 9px 14px;
+    font-size: 13px;
+  }
+
+  .metrics-stats-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .metric-stat-card:last-child {
+    grid-column: span 2;
+  }
+
+  .metric-chart-card {
+    padding: 14px 14px;
+  }
+
+  .chart-controls-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .chart-tab-pills, .chart-range-pills {
+    justify-content: center;
+  }
+
+  .metric-grid-3 {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+  }
+
+  .body-metric-dialog {
+    width: calc(100vw - 24px) !important;
+    padding: 18px !important;
+    margin: 12px !important;
+  }
+
+  .metric-weight-input {
+    font-size: 26px;
+  }
+
+  .metric-form-actions {
+    flex-direction: row;
+  }
+
+  .metric-form-actions button {
+    flex: 1;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Input Validation & Biological Plausibility Warnings
+   -------------------------------------------------------------------------- */
+.metric-text-input.metric-input-warning,
+.metric-weight-input.metric-input-warning {
+  border-color: #EF4444 !important;
+  background-color: rgba(254, 242, 242, 0.85) !important;
+  box-shadow: 0 0 0 2.5px rgba(239, 68, 68, 0.25) !important;
+  color: #991B1B !important;
+}
+
+.metric-field-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.metric-warning-tooltip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 4px;
+  padding: 3px 6px;
+  background: rgba(254, 242, 242, 0.95);
+  border: 1px solid rgba(252, 165, 165, 0.9);
+  border-radius: 6px;
+  color: #DC2626;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.25;
+  box-shadow: 0 2px 6px rgba(220, 38, 38, 0.08);
+  animation: metricFadeIn 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.metric-char-limit-badge {
+  font-size: 10px;
+  font-weight: 500;
+  color: #94A3B8;
+  margin-left: auto;
+}
+
+@keyframes metricFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-2px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

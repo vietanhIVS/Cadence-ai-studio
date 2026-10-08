@@ -1,4 +1,7 @@
 {
   "name": "Cadence",
-  "description": "Plan your training cycle, follow your schedule, and record every workout."
+  "description": "Plan your training cycle, follow your schedule, and record every workout.",
+  "capabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
 }

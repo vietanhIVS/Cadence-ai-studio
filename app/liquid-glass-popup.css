@@ -1,0 +1,390 @@
+/* ==========================================================================
+   DAYLIGHT LIQUID GLASS BLUE - GENERAL UI TOKENS & UTILITIES
+   Optimized for iOS Safari, ProMotion 120Hz, and Apple A-Series GPU
+   ========================================================================== */
+
+:root {
+  /* Daylight Glass Palette */
+  --glass-bg: rgba(255, 255, 255, 0.72);
+  --glass-bg-hover: rgba(255, 255, 255, 0.85);
+  --glass-border: rgba(255, 255, 255, 0.85);
+  --glass-border-faint: rgba(255, 255, 255, 0.45);
+  
+  /* Color system */
+  --glass-navy-900: #0f172a;    /* Tiêu đề chính */
+  --glass-slate-600: #475569;   /* Chữ phụ, mô tả */
+  --glass-slate-400: #94a3b8;   /* Chữ mờ, icons */
+  
+  /* Branding Blue (Liquid Gradient) */
+  --liquid-blue-start: #3b82f6;
+  --liquid-blue-end: #1d4ed8;
+  --liquid-blue-glow: rgba(37, 99, 235, 0.25);
+  
+  /* Elevation Overlay (Daylight Natural Blur) */
+  --glass-backdrop: rgba(226, 236, 248, 0.45);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --glass-bg: rgba(15, 23, 42, 0.82);
+    --glass-bg-hover: rgba(30, 41, 59, 0.90);
+    --glass-border: rgba(255, 255, 255, 0.16);
+    --glass-border-faint: rgba(255, 255, 255, 0.10);
+    --glass-navy-900: #f8fafc;
+    --glass-slate-600: #94a3b8;
+    --glass-slate-400: #64748b;
+    --glass-backdrop: rgba(15, 23, 42, 0.65);
+    --liquid-blue-glow: rgba(37, 99, 235, 0.35);
+  }
+}
+
+/* ==========================================================================
+   1. OVERLAYS & CONTAINER (Khung nền & Hộp thoại)
+   ========================================================================== */
+
+/* Lớp phủ Backdrop phía sau popup - Tối ưu 120Hz trên iOS */
+.glass-overlay,
+[data-slot="dialog-overlay"],
+[data-slot="alert-dialog-overlay"] {
+  position: fixed;
+  inset: 0;
+  background: var(--glass-backdrop) !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+  
+  /* Safari Performance Fix: Giảm bớt gánh nặng rendering */
+  backdrop-filter: blur(12px) saturate(140%) !important;
+  -webkit-backdrop-filter: blur(12px) saturate(140%) !important;
+  
+  /* Chặn scroll nền xuyên qua lớp phủ trên iOS */
+  touch-action: none;
+  
+  /* Kích hoạt phần cứng xử lý mượt mà chuyển động xuất hiện */
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+}
+
+/* Hộp thoại Popup Kính Lỏng Ban Ngày tiêu chuẩn - Chống vỡ, chống sọc viền trên iOS */
+.glass-popup-base,
+[data-slot="dialog-content"],
+[data-slot="alert-dialog-content"] {
+  position: fixed;
+  background: var(--glass-bg) !important;
+  
+  /* Cạnh bo tròn mịn đặc trưng Apple, bắt buộc overflow hidden để ko tràn blur */
+  border-radius: 20px !important;
+  overflow: hidden;
+  
+  /* Safari Performance & High-Fidelity Blur */
+  backdrop-filter: blur(20px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+  
+  /* Safari Double-Border & Specular highlight */
+  border: 1.5px solid var(--glass-border) !important;
+  box-shadow: 
+    0 20px 50px rgba(37, 99, 235, 0.08),     /* Ambient Blue shadow */
+    0 5px 15px rgba(15, 23, 42, 0.03),       /* Drop Shadow */
+    inset 0 1px 0 rgba(255, 255, 255, 0.9) !important;  /* Edge Specular */
+    
+  color: var(--glass-navy-900);
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (prefers-color-scheme: dark) {
+  .glass-popup-base,
+  [data-slot="dialog-content"],
+  [data-slot="alert-dialog-content"] {
+    box-shadow: 
+      0 20px 50px rgba(0, 0, 0, 0.4),
+      0 5px 15px rgba(0, 0, 0, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.12) !important;
+  }
+}
+
+/* ==========================================================================
+   2. POPUP TYPOGRAPHY & HEADER SPECIFICATION
+   ========================================================================== */
+
+[data-slot="dialog-title"],
+[data-slot="alert-dialog-title"],
+.glass-popup-title {
+  color: var(--glass-navy-900) !important;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+}
+
+[data-slot="dialog-description"],
+[data-slot="alert-dialog-description"],
+.glass-popup-desc {
+  color: var(--glass-slate-600) !important;
+  line-height: 1.55;
+}
+
+/* ==========================================================================
+   3. APPLE SPECULAR GLASS CLOSE BUTTON
+   ========================================================================== */
+
+.glass-close-btn,
+[data-slot="dialog-close"] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 9999px !important;
+  background: rgba(255, 255, 255, 0.65) !important;
+  border: 1px solid rgba(255, 255, 255, 0.85) !important;
+  color: var(--glass-slate-600) !important;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04), inset 0 1px 1px #FFFFFF !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 0;
+}
+
+.glass-close-btn:hover,
+[data-slot="dialog-close"]:hover {
+  background: rgba(255, 255, 255, 0.95) !important;
+  color: var(--glass-navy-900) !important;
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.12), inset 0 1px 1px #FFFFFF !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  .glass-close-btn,
+  [data-slot="dialog-close"] {
+    background: rgba(30, 41, 59, 0.72) !important;
+    border-color: rgba(255, 255, 255, 0.16) !important;
+    color: var(--glass-slate-400) !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.1) !important;
+  }
+  .glass-close-btn:hover,
+  [data-slot="dialog-close"]:hover {
+    background: rgba(51, 65, 85, 0.9) !important;
+    color: #FFFFFF !important;
+  }
+}
+
+/* ==========================================================================
+   4. POPUP ACTION BUTTONS & INTERACTIVE ELEMENTS
+   ========================================================================== */
+
+/* Primary Action Buttons inside popups */
+:is([data-slot="dialog-content"], [data-slot="alert-dialog-content"], .glass-popup-base) button.primary,
+:is([data-slot="dialog-content"], [data-slot="alert-dialog-content"], .glass-popup-base) [data-slot="alert-dialog-action"] {
+  background: linear-gradient(135deg, var(--liquid-blue-start), var(--liquid-blue-end)) !important;
+  color: #FFFFFF !important;
+  border: 1px solid rgba(255, 255, 255, 0.38) !important;
+  box-shadow: 0 6px 18px var(--liquid-blue-glow), inset 0 1px 1.5px rgba(255, 255, 255, 0.5) !important;
+  font-weight: 600;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+:is([data-slot="dialog-content"], [data-slot="alert-dialog-content"], .glass-popup-base) button.primary:hover:not(:disabled),
+:is([data-slot="dialog-content"], [data-slot="alert-dialog-content"], .glass-popup-base) [data-slot="alert-dialog-action"]:hover:not(:disabled) {
+  background: linear-gradient(135deg, #2D6EF7, #1E52E2) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(37, 99, 235, 0.38), inset 0 1px 1.5px rgba(255, 255, 255, 0.65) !important;
+}
+
+:is([data-slot="dialog-content"], [data-slot="alert-dialog-content"], .glass-popup-base) button.primary:active:not(:disabled),
+:is([data-slot="dialog-content"], [data-slot="alert-dialog-content"], .glass-popup-base) [data-slot="alert-dialog-action"]:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+/* Cancel & Secondary Buttons inside popups */
+:is([data-slot="dialog-content"], [data-slot="alert-dialog-content"], .glass-popup-base) button.secondary,
+:is([data-slot="dialog-content"], [data-slot="alert-dialog-content"], .glass-popup-base) [data-slot="alert-dialog-cancel"] {
+  background: rgba(255, 255, 255, 0.68) !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.88) !important;
+  color: var(--glass-slate-600) !important;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04), inset 0 1px 1.5px #FFFFFF !important;
+  font-weight: 600;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+:is([data-slot="dialog-content"], [data-slot="alert-dialog-content"], .glass-popup-base) button.secondary:hover:not(:disabled),
+:is([data-slot="dialog-content"], [data-slot="alert-dialog-content"], .glass-popup-base) [data-slot="alert-dialog-cancel"]:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.92) !important;
+  color: var(--glass-navy-900) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.08), inset 0 1px 1.5px #FFFFFF !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  :is([data-slot="dialog-content"], [data-slot="alert-dialog-content"], .glass-popup-base) button.secondary,
+  :is([data-slot="dialog-content"], [data-slot="alert-dialog-content"], .glass-popup-base) [data-slot="alert-dialog-cancel"] {
+    background: rgba(30, 41, 59, 0.7) !important;
+    border-color: rgba(255, 255, 255, 0.16) !important;
+    color: #E2E8F0 !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2), inset 0 1px 1px rgba(255, 255, 255, 0.1) !important;
+  }
+  :is([data-slot="dialog-content"], [data-slot="alert-dialog-content"], .glass-popup-base) button.secondary:hover:not(:disabled),
+  :is([data-slot="dialog-content"], [data-slot="alert-dialog-content"], .glass-popup-base) [data-slot="alert-dialog-cancel"]:hover:not(:disabled) {
+    background: rgba(51, 65, 85, 0.85) !important;
+    color: #FFFFFF !important;
+  }
+}
+
+/* ==========================================================================
+   5. SPECIFIC DIALOG REFINEMENTS (Training, Body Metric, Stop, AI Modals)
+   ========================================================================== */
+
+/* Main Training Dialog (Program details, editor, workout log) */
+.trainingdialog {
+  background: var(--glass-bg) !important;
+  backdrop-filter: blur(24px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
+  border: 1.5px solid var(--glass-border) !important;
+  border-radius: 22px !important;
+  box-shadow: 
+    0 25px 60px rgba(37, 99, 235, 0.09),
+    0 5px 15px rgba(15, 23, 42, 0.03),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95) !important;
+}
+
+/* Program Editor Sticky Footer inside Modal */
+.trainingdialog .program-editor-footer {
+  background: rgba(255, 255, 255, 0.75) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border-top: 1px solid var(--glass-border-faint) !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  .trainingdialog .program-editor-footer {
+    background: rgba(15, 23, 42, 0.85) !important;
+    border-top-color: rgba(255, 255, 255, 0.12) !important;
+  }
+}
+
+/* Body Metric Dialog */
+.body-metric-dialog {
+  background: var(--glass-bg) !important;
+  backdrop-filter: blur(24px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
+  border: 1.5px solid var(--glass-border) !important;
+  border-radius: 24px !important;
+  box-shadow: 
+    0 25px 60px rgba(37, 99, 235, 0.09),
+    0 5px 15px rgba(15, 23, 42, 0.03),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95) !important;
+}
+
+/* AI Program Generator Modal */
+.ai-program-modal-content {
+  background: var(--glass-bg) !important;
+  backdrop-filter: blur(24px) saturate(190%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(190%) !important;
+  border: 1.5px solid var(--glass-border) !important;
+  border-radius: 22px !important;
+  box-shadow: 
+    0 25px 60px rgba(37, 99, 235, 0.1),
+    0 5px 15px rgba(15, 23, 42, 0.03),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95) !important;
+}
+
+/* Stop Program Dialog */
+.stop-program-dialog[data-slot="dialog-content"] {
+  background: var(--glass-bg) !important;
+  backdrop-filter: blur(24px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
+  border: 1.5px solid var(--glass-border) !important;
+  border-radius: 20px !important;
+  box-shadow: 
+    0 20px 50px rgba(37, 99, 235, 0.08),
+    0 5px 15px rgba(15, 23, 42, 0.03),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9) !important;
+}
+
+/* Confirmation & Alert Dialogs (Finish, Discard, Delete, Start, Skip) */
+:is(.finish-workout-dialog, .discard-workout-dialog, .delete-workout-dialog, .start-workout-dialog, .skip-workout-dialog)[data-slot="alert-dialog-content"] {
+  background: var(--glass-bg) !important;
+  backdrop-filter: blur(24px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
+  border: 1.5px solid var(--glass-border) !important;
+  border-radius: 20px !important;
+  box-shadow: 
+    0 20px 50px rgba(37, 99, 235, 0.08),
+    0 5px 15px rgba(15, 23, 42, 0.03),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9) !important;
+}
+
+/* Form Inputs inside all popups */
+:is([data-slot="dialog-content"], [data-slot="alert-dialog-content"], .glass-popup-base) input:not([type="checkbox"]):not([type="radio"]),
+:is([data-slot="dialog-content"], [data-slot="alert-dialog-content"], .glass-popup-base) textarea,
+:is([data-slot="dialog-content"], [data-slot="alert-dialog-content"], .glass-popup-base) select {
+  background: rgba(255, 255, 255, 0.82);
+  border: 1px solid rgba(203, 213, 225, 0.85);
+  color: var(--glass-navy-900);
+  border-radius: 12px;
+  box-shadow: inset 0 1px 2px rgba(15, 23, 42, 0.03);
+  transition: border-color 0.18s, box-shadow 0.18s;
+}
+
+:is([data-slot="dialog-content"], [data-slot="alert-dialog-content"], .glass-popup-base) input:focus,
+:is([data-slot="dialog-content"], [data-slot="alert-dialog-content"], .glass-popup-base) textarea:focus,
+:is([data-slot="dialog-content"], [data-slot="alert-dialog-content"], .glass-popup-base) select:focus {
+  outline: none;
+  border-color: var(--liquid-blue-start);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+@media (prefers-color-scheme: dark) {
+  :is([data-slot="dialog-content"], [data-slot="alert-dialog-content"], .glass-popup-base) input:not([type="checkbox"]):not([type="radio"]),
+  :is([data-slot="dialog-content"], [data-slot="alert-dialog-content"], .glass-popup-base) textarea,
+  :is([data-slot="dialog-content"], [data-slot="alert-dialog-content"], .glass-popup-base) select {
+    background: rgba(30, 41, 59, 0.7);
+    border-color: rgba(255, 255, 255, 0.16);
+    color: var(--glass-navy-900);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.25);
+  }
+}
+
+/* ==========================================================================
+   6. MOBILE VIEWPORT OPTIMIZATIONS (iPhone 15 Pro, iOS Safari 120Hz)
+   ========================================================================== */
+@media (max-width: 650px) {
+  .glass-popup-base,
+  [data-slot="dialog-content"],
+  [data-slot="alert-dialog-content"] {
+    width: calc(100vw - 24px) !important;
+    max-width: calc(100vw - 24px) !important;
+    max-height: calc(100dvh - 28px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px)) !important;
+    border-radius: 22px !important;
+    padding: 20px 16px !important;
+  }
+  
+  .trainingdialog {
+    padding: 20px 14px !important;
+    max-height: calc(100dvh - 24px) !important;
+  }
+  
+  .glass-close-btn,
+  [data-slot="dialog-close"] {
+    top: 12px;
+    right: 12px;
+  }
+}
+
+/* History Datepicker Popover (Daylight Liquid Glass) */
+.history-datepicker-popover {
+  background: var(--glass-bg, rgba(255, 255, 255, 0.95)) !important;
+  backdrop-filter: blur(20px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+  border: 1.5px solid var(--glass-border, rgba(255, 255, 255, 0.85)) !important;
+  box-shadow: 0 20px 45px rgba(37, 99, 235, 0.12), 0 5px 15px rgba(15, 23, 42, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.95) !important;
+  border-radius: 20px !important;
+  z-index: 60 !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  .history-datepicker-popover {
+    background: rgba(15, 23, 42, 0.92) !important;
+    border-color: rgba(255, 255, 255, 0.16) !important;
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.12) !important;
+  }
+}

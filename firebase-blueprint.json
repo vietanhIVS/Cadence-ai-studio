@@ -1,0 +1,62 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User profile document",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "description": "Unique user ID"
+        },
+        "email": {
+          "type": "string",
+          "description": "User email address"
+        },
+        "displayName": {
+          "type": "string",
+          "description": "User display name"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Profile creation timestamp"
+        }
+      },
+      "required": ["uid", "email"]
+    },
+    "TrainingState": {
+      "title": "TrainingState",
+      "description": "Cadence workout training state and history",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "Owner user ID"
+        },
+        "revision": {
+          "type": "number",
+          "description": "Revision number for concurrency control"
+        },
+        "stateJson": {
+          "type": "string",
+          "description": "Serialized JSON of programs, schedules, sessions, logs, and settings"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "ISO timestamp of last update"
+        }
+      },
+      "required": ["userId", "revision", "stateJson", "updatedAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "Collection of user profiles"
+    },
+    "/users/{userId}/training/{docId}": {
+      "schema": "TrainingState",
+      "description": "Subcollection containing user workout state"
+    }
+  }
+}

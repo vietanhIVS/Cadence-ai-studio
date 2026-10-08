@@ -1,6 +1,6 @@
 "use client";
 import {useEffect,useRef} from 'react';
-import {CalendarDays,Dumbbell,History,Settings} from 'lucide-react';
+import {Home,Dumbbell,History,Settings} from 'lucide-react';
 import {Tabs,TabsList,TabsTrigger} from '@/components/ui/tabs';
 
 export default function MainNavigation({tab,onChange}:{tab:string;onChange:(tab:string)=>void}){
@@ -28,5 +28,5 @@ export default function MainNavigation({tab,onChange}:{tab:string;onChange:(tab:
   return()=>{clear();cancelAnimationFrame(frame);observer.disconnect();window.removeEventListener('scroll',scroll);window.removeEventListener('wheel',wheel);window.removeEventListener('pointerdown',down);window.removeEventListener('pointermove',move);window.removeEventListener('pointerup',up);window.removeEventListener('pointercancel',up);window.removeEventListener('keydown',key);nav.removeEventListener('focusin',focus);nav.removeEventListener('focusout',focus);media.removeEventListener('change',resize);window.visualViewport?.removeEventListener('resize',resize)};
  },[]);
  useEffect(()=>{opened.current()},[tab]);
- return <><button type="button" className="sr-only dock-reveal" onClick={()=>show.current()}>Show navigation</button><Tabs value={tab} onValueChange={onChange}><TabsList ref={dock} className="mainnav liquid-glass-navbar" aria-label="Main navigation" data-dock-hidden="false">{[[CalendarDays,'Schedule'],[Dumbbell,'Programs'],[History,'History'],[Settings,'Settings']].map(([Icon,label]:any)=><TabsTrigger key={label} value={label} className={tab===label?'active-blue-pill':'nav-tab-inactive'}><Icon/>{label}</TabsTrigger>)}</TabsList></Tabs></>;
+ return <><button type="button" className="sr-only dock-reveal" onClick={()=>show.current()}>Show navigation</button><Tabs value={tab==='Schedule'?'Home':tab} onValueChange={onChange}><TabsList ref={dock} className="mainnav liquid-glass-navbar" aria-label="Main navigation" data-dock-hidden="false">{[[Home,'Home'],[Dumbbell,'Programs'],[History,'History'],[Settings,'Settings']].map(([Icon,label]:any)=><TabsTrigger key={label} value={label} className={(tab===label||(label==='Home'&&tab==='Schedule'))?'active-blue-pill':'nav-tab-inactive'}><Icon/>{label}</TabsTrigger>)}</TabsList></Tabs></>;
 }

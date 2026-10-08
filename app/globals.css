@@ -8,11 +8,13 @@
 @import "./workout-glass.css";
 @import "./program-cycle.css";
 @import "./cycle-position.css";
-@import "./cycle-position.css";
 @import "./schedule-palette.css";
 @import "./typography.css";
 @import "./mobile-navigation.css";
 @import "./history-glass.css";
+@import "./body-metrics.css";
+@import "./ai-program.css";
+@import "./liquid-glass-popup.css";
 :root{--background:#f2f2f7;--foreground:#17191e;--card:#fff;--card-foreground:#17191e;--popover:#fff;--popover-foreground:#17191e;--primary:#1a73e8;--primary-foreground:#fff;--secondary:#d9e7ff;--secondary-foreground:#0b3d91;--muted:#e5e5ea;--muted-foreground:#636366;--accent:#d9e7ff;--accent-foreground:#0b3d91;--destructive:#c63838;--border:#dde0e7;--input:#dde0e7;--ring:#1a73e8;--radius:1rem;--surface:#fff;--subtle:#f7f8fb;--blue-tint:#d9e7ff;--amber:#b45309}
 @media(prefers-color-scheme:dark){:root{--background:#000;--foreground:#fff;--card:#1c1c1e;--card-foreground:#fff;--popover:#1c1c1e;--popover-foreground:#fff;--secondary:#1e3a5f;--secondary-foreground:#d9e7ff;--muted:#2c2c2e;--muted-foreground:#aeaeb2;--accent:#1e3a5f;--accent-foreground:#d9e7ff;--border:#303034;--input:#38383e;--surface:#1c1c1e;--subtle:#232326;--blue-tint:#1e3a5f;--amber:#ffb55c}}
 @theme inline{--color-background:var(--background);--color-foreground:var(--foreground);--color-card:var(--card);--color-card-foreground:var(--card-foreground);--color-popover:var(--popover);--color-popover-foreground:var(--popover-foreground);--color-primary:var(--primary);--color-primary-foreground:var(--primary-foreground);--color-secondary:var(--secondary);--color-secondary-foreground:var(--secondary-foreground);--color-muted:var(--muted);--color-muted-foreground:var(--muted-foreground);--color-accent:var(--accent);--color-accent-foreground:var(--accent-foreground);--color-destructive:var(--destructive);--color-border:var(--border);--color-input:var(--input);--color-ring:var(--ring)}
@@ -89,37 +91,576 @@
 @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.shell .mainnav{background:var(--surface)}}
 @media(prefers-reduced-motion:reduce){.shell .mainnav [data-slot=tabs-trigger]{transition:none}.shell .mainnav [data-slot=tabs-trigger][data-state=active]:hover{transform:none}}
 
-/* Shared liquid-glass material for action buttons; native choice indicators keep their shape. */
-.liquid-glass-btn,:is(.shell,[data-slot=dialog-content],[data-slot=alert-dialog-content]) button:not([role=checkbox]):not([role=radio]){
- border:1px solid rgba(255,255,255,.45);
- box-shadow:inset 0 1px 1px rgba(255,255,255,.6),inset 0 -1px 1px rgba(0,0,0,.04),var(--liquid-button-glow,0 4px 12px rgba(15,23,42,.05));
- backdrop-filter:blur(16px) saturate(180%);-webkit-backdrop-filter:blur(16px) saturate(180%);
- border-radius:9999px;transition:all .25s cubic-bezier(.4,0,.2,1);cursor:pointer;user-select:none;
-}
-:is(.shell,[data-slot=dialog-content],[data-slot=alert-dialog-content]) button.primary{--liquid-button-glow:0 6px 16px rgba(37,99,235,.2)}
-:is(.shell,[data-slot=dialog-content],[data-slot=alert-dialog-content]) button:is(.danger,.stop-dialog-confirm),.discard-workout-dialog button.primary{--liquid-button-glow:0 4px 12px rgba(220,38,38,.12)}
-.liquid-glass-btn:hover:not(:disabled),:is(.shell,[data-slot=dialog-content],[data-slot=alert-dialog-content]) button:not([role=checkbox]):not([role=radio]):hover:not(:disabled){transform:translateY(-1px)}
-.liquid-glass-btn:active:not(:disabled),:is(.shell,[data-slot=dialog-content],[data-slot=alert-dialog-content]) button:not([role=checkbox]):not([role=radio]):active:not(:disabled){transform:translateY(.5px) scale(.98)}
-.liquid-glass-btn:disabled,:is(.shell,[data-slot=dialog-content],[data-slot=alert-dialog-content]) button:not([role=checkbox]):not([role=radio]):disabled{cursor:not-allowed;transform:none}
-@media(prefers-color-scheme:dark){
- .liquid-glass-btn,:is(.shell,[data-slot=dialog-content],[data-slot=alert-dialog-content]) button:not([role=checkbox]):not([role=radio]){border-color:rgba(255,255,255,.2);box-shadow:inset 0 1px 1px rgba(255,255,255,.16),inset 0 -1px 1px rgba(0,0,0,.08),var(--liquid-button-glow,0 4px 12px rgba(0,0,0,.16))}
-}
-@media(prefers-reduced-motion:reduce){
- .liquid-glass-btn,:is(.shell,[data-slot=dialog-content],[data-slot=alert-dialog-content]) button:not([role=checkbox]):not([role=radio]){transition:none}
- .liquid-glass-btn:is(:hover,:active),:is(.shell,[data-slot=dialog-content],[data-slot=alert-dialog-content]) button:not([role=checkbox]):not([role=radio]):is(:hover,:active):not(:disabled){transform:none}
+/* ==========================================================================
+   Liquid Glass Button Design System
+   Universal refractive glass material for all interactive buttons
+   ========================================================================== */
+
+/* Base liquid-glass material for action buttons */
+.liquid-glass-btn,
+:is(.shell, [data-slot=dialog-content], [data-slot=alert-dialog-content]) button:not([role=checkbox]):not([role=radio]) {
+ display: inline-flex;
+ align-items: center;
+ justify-content: center;
+ gap: 8px;
+ border-radius: 9999px;
+ border: 1px solid rgba(255, 255, 255, 0.55);
+ backdrop-filter: blur(16px) saturate(180%);
+ -webkit-backdrop-filter: blur(16px) saturate(180%);
+ box-shadow: inset 0 1px 1.5px rgba(255, 255, 255, 0.75), inset 0 -1px 1px rgba(0, 0, 0, 0.04), var(--liquid-button-glow, 0 4px 14px rgba(15, 23, 42, 0.05));
+ font-family: inherit;
+ font-weight: 600;
+ text-decoration: none;
+ cursor: pointer;
+ user-select: none;
+ transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1), background 0.2s ease-in-out, border-color 0.2s ease-in-out;
 }
 
-/* iOS Safari composites translucent surfaces more opaquely over the pale canvas.
-   Lower only the glass fill there; keep the same blur, borders, and readable ink. */
-@supports (-webkit-touch-callout:none){
- .shell .mainnav{background:rgba(255,255,255,.28);backdrop-filter:blur(28px) saturate(200%);-webkit-backdrop-filter:blur(28px) saturate(200%)}
- @media(prefers-color-scheme:dark){.shell .mainnav{background:rgba(15,23,42,.48);border-color:rgba(255,255,255,.22)}}
+/* Primary Liquid Glass Button */
+.primary,
+:is(.shell, [data-slot=dialog-content], [data-slot=alert-dialog-content]) button.primary {
+ background: linear-gradient(135deg, #2563EB, #1D4ED8);
+ color: #FFFFFF;
+ border: 1px solid rgba(255, 255, 255, 0.38);
+ min-height: 44px;
+ padding: 11px 22px;
+ font-size: 0.9375rem;
+ font-weight: 600;
+ box-shadow: inset 0 1px 1.5px rgba(255, 255, 255, 0.5), inset 0 -1px 1px rgba(0, 0, 0, 0.18), 0 6px 18px rgba(37, 99, 235, 0.28);
 }
-@media(prefers-color-scheme:light){@supports (-webkit-touch-callout:none){
- .shell.schedule-view .panel,.shell.schedule-view .schedule-kudos,.shell.schedule-view .schedule-next-program,.shell.schedule-view .schedule-completed-card{background:rgba(255,255,255,.56);backdrop-filter:blur(24px) saturate(195%);-webkit-backdrop-filter:blur(24px) saturate(195%)}
- .shell.workout-view>.panel,.shell.workout-view .exercisework{background:rgba(255,255,255,.56);backdrop-filter:blur(24px) saturate(195%);-webkit-backdrop-filter:blur(24px) saturate(195%)}
- .shell.workout-view .workout-rest{background:rgba(248,250,252,.48);backdrop-filter:blur(16px) saturate(190%);-webkit-backdrop-filter:blur(16px) saturate(190%)}
- .shell.history-view .historysummary>div,.shell.history-view .historylist button.history-workout-card,.shell.history-view .history-tools,.shell.history-view .history-filter-content{background-color:rgba(255,255,255,.52);backdrop-filter:blur(24px) saturate(195%);-webkit-backdrop-filter:blur(24px) saturate(195%)}
-}}
-.rest-notification-setting{display:flex;align-items:center;justify-content:space-between;gap:20px}.rest-notification-setting>div{min-width:0;max-width:680px}.rest-notification-setting h2{margin-bottom:6px}.rest-notification-setting p{font-size:.9rem}.rest-notification-setting .rest-notification-limit{margin-top:5px;font-size:.8rem}.rest-notification-setting>button{flex-shrink:0;min-height:44px}
-@media(max-width:650px){.rest-notification-setting{align-items:stretch;flex-direction:column}.rest-notification-setting>button{width:100%}}
+.primary:hover:not(:disabled),
+:is(.shell, [data-slot=dialog-content], [data-slot=alert-dialog-content]) button.primary:hover:not(:disabled) {
+ background: linear-gradient(135deg, #2D6EF7, #1E52E2);
+ transform: translateY(-1px);
+ box-shadow: inset 0 1px 1.5px rgba(255, 255, 255, 0.65), 0 8px 24px rgba(37, 99, 235, 0.38);
+}
+.primary:active:not(:disabled),
+:is(.shell, [data-slot=dialog-content], [data-slot=alert-dialog-content]) button.primary:active:not(:disabled) {
+ transform: scale(0.97) translateY(0.5px);
+ box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.2), 0 2px 8px rgba(37, 99, 235, 0.25);
+}
+
+/* Secondary Liquid Glass Button */
+.secondary,
+:is(.shell, [data-slot=dialog-content], [data-slot=alert-dialog-content]) button.secondary {
+ background: rgba(255, 255, 255, 0.68);
+ border: 1.5px solid rgba(255, 255, 255, 0.88);
+ color: #334155;
+ min-height: 44px;
+ padding: 10px 18px;
+ font-size: 0.9375rem;
+ font-weight: 600;
+ box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04), inset 0 1px 1.5px #FFFFFF;
+}
+.secondary:hover:not(:disabled),
+:is(.shell, [data-slot=dialog-content], [data-slot=alert-dialog-content]) button.secondary:hover:not(:disabled) {
+ background: rgba(255, 255, 255, 0.92);
+ color: #0F172A;
+ transform: translateY(-1px);
+ box-shadow: 0 6px 18px rgba(15, 23, 42, 0.08), inset 0 1px 1.5px #FFFFFF;
+}
+.secondary:active:not(:disabled),
+:is(.shell, [data-slot=dialog-content], [data-slot=alert-dialog-content]) button.secondary:active:not(:disabled) {
+ transform: scale(0.97);
+}
+
+/* Dedicated Liquid Glass Google Authentication Button */
+.google-login-btn {
+ display: inline-flex;
+ align-items: center;
+ justify-content: center;
+ gap: 8px;
+ min-height: 44px;
+ padding: 8px 18px;
+ border-radius: 9999px;
+ font-size: 0.875rem;
+ font-weight: 600;
+ background: rgba(255, 255, 255, 0.76);
+ border: 1.5px solid rgba(255, 255, 255, 0.92);
+ color: #0F172A;
+ backdrop-filter: blur(20px) saturate(190%);
+ -webkit-backdrop-filter: blur(20px) saturate(190%);
+ box-shadow: 0 6px 18px rgba(37, 99, 235, 0.08), inset 0 1px 1.5px #FFFFFF, inset 0 -1px 1px rgba(15, 23, 42, 0.04);
+ transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1), background 0.2s ease-in-out;
+ cursor: pointer;
+ user-select: none;
+ text-decoration: none;
+}
+.google-login-btn:hover:not(:disabled) {
+ background: rgba(255, 255, 255, 0.94);
+ transform: translateY(-1px);
+ box-shadow: 0 8px 24px rgba(37, 99, 235, 0.15), inset 0 1px 1.5px #FFFFFF;
+}
+.google-login-btn:active:not(:disabled) {
+ transform: scale(0.97);
+}
+
+/* Dedicated Liquid Glass Sign-out Button */
+.google-signout-btn {
+ min-height: 38px;
+ padding: 6px 14px;
+ font-size: 0.8125rem;
+ font-weight: 600;
+ background: rgba(255, 255, 255, 0.68);
+ border: 1.5px solid rgba(255, 255, 255, 0.88);
+ color: #475569;
+ box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04), inset 0 1px 1px #FFFFFF;
+}
+.google-signout-btn:hover:not(:disabled) {
+ background: rgba(255, 255, 255, 0.92);
+ color: #0F172A;
+ transform: translateY(-1px);
+}
+
+/* Liquid Glass User Status Badge */
+.google-user-badge {
+ display: inline-flex;
+ align-items: center;
+ gap: 6px;
+ padding: 6px 12px;
+ border-radius: 9999px;
+ font-size: 0.8125rem;
+ font-weight: 600;
+ background: rgba(217, 231, 255, 0.75);
+ color: #0B3D91;
+ border: 1.5px solid rgba(255, 255, 255, 0.9);
+ backdrop-filter: blur(18px) saturate(190%);
+ -webkit-backdrop-filter: blur(18px) saturate(190%);
+ box-shadow: 0 2px 8px rgba(37, 99, 235, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+.google-user-badge .google-user-name {
+ max-width: 110px;
+ overflow: hidden;
+ text-overflow: ellipsis;
+ white-space: nowrap;
+}
+
+/* Stop Program / Destructive Liquid Glass Button */
+.stop-program {
+ display: inline-flex;
+ align-items: center;
+ justify-content: center;
+ gap: 10px;
+ min-height: 44px;
+ padding: 6px 16px 6px 10px;
+ border-radius: 9999px;
+ border: 1px solid rgba(239, 68, 68, 0.25);
+ background: rgba(254, 242, 242, 0.82);
+ color: #B91C1C;
+ font-size: 0.9375rem;
+ font-weight: 600;
+ white-space: nowrap;
+ backdrop-filter: blur(16px) saturate(180%);
+ -webkit-backdrop-filter: blur(16px) saturate(180%);
+ box-shadow: 0 4px 14px rgba(220, 38, 38, 0.08), inset 0 1px 1px #FFFFFF;
+ transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1), background 0.2s ease-in-out;
+}
+.stop-program:hover:not(:disabled) {
+ background: rgba(254, 226, 226, 0.95);
+ transform: translateY(-1px);
+ box-shadow: 0 6px 18px rgba(220, 38, 38, 0.16), inset 0 1px 1px #FFFFFF;
+}
+.stop-program:active:not(:disabled) {
+ transform: scale(0.97);
+}
+.stop-program-icon {
+ display: inline-flex;
+ align-items: center;
+ justify-content: center;
+ width: 28px;
+ height: 28px;
+ border-radius: 50%;
+ background: #EF4444;
+ color: #FFFFFF;
+ flex-shrink: 0;
+}
+
+/* Text & Icon Glass Buttons */
+.textbtn {
+ display: inline-flex;
+ align-items: center;
+ justify-content: center;
+ gap: 6px;
+ min-height: 44px;
+ padding: 8px 14px;
+ border-radius: 9999px;
+ border: 1px solid transparent;
+ background: transparent;
+ font-weight: 600;
+ color: var(--primary);
+ transition: background 0.18s, border-color 0.18s, transform 0.18s;
+}
+.textbtn:hover:not(:disabled) {
+ background: rgba(37, 99, 235, 0.08);
+ border-color: rgba(37, 99, 235, 0.15);
+}
+.textbtn.danger {
+ color: #DC2626;
+}
+.textbtn.danger:hover:not(:disabled) {
+ background: rgba(220, 38, 38, 0.08);
+ border-color: rgba(220, 38, 38, 0.18);
+}
+.iconbtn {
+ min-width: 44px;
+ min-height: 44px;
+ border-radius: 50%;
+ display: grid;
+ place-items: center;
+ background: rgba(255, 255, 255, 0.6);
+ border: 1px solid rgba(255, 255, 255, 0.8);
+ box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04), inset 0 1px 1px #FFFFFF;
+ transition: background 0.18s, transform 0.18s;
+}
+.iconbtn:hover:not(:disabled) {
+ background: rgba(255, 255, 255, 0.92);
+ transform: translateY(-1px);
+}
+
+/* Button States */
+.liquid-glass-btn:disabled,
+:is(.shell, [data-slot=dialog-content], [data-slot=alert-dialog-content]) button:disabled {
+ opacity: 0.55;
+ cursor: not-allowed;
+ transform: none !important;
+ box-shadow: none !important;
+}
+
+/* Dark Mode Liquid Glass Buttons */
+@media(prefers-color-scheme:dark){
+ .liquid-glass-btn,
+ :is(.shell, [data-slot=dialog-content], [data-slot=alert-dialog-content]) button:not([role=checkbox]):not([role=radio]) {
+  border-color: rgba(255, 255, 255, 0.18);
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.15), inset 0 -1px 1px rgba(0, 0, 0, 0.1), var(--liquid-button-glow, 0 4px 14px rgba(0, 0, 0, 0.25));
+ }
+ .secondary,
+ :is(.shell, [data-slot=dialog-content], [data-slot=alert-dialog-content]) button.secondary {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.18);
+  color: #E2E8F0;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.14);
+ }
+ .secondary:hover:not(:disabled),
+ :is(.shell, [data-slot=dialog-content], [data-slot=alert-dialog-content]) button.secondary:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.14);
+  color: #FFFFFF;
+  border-color: rgba(255, 255, 255, 0.28);
+ }
+ .google-login-btn {
+  background: rgba(15, 23, 42, 0.78);
+  border-color: rgba(255, 255, 255, 0.22);
+  color: #F1F5F9;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.15);
+ }
+ .google-login-btn:hover:not(:disabled) {
+  background: rgba(30, 41, 59, 0.92);
+  border-color: rgba(255, 255, 255, 0.35);
+ }
+ .google-signout-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.18);
+  color: #CBD5E1;
+ }
+ .google-signout-btn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.14);
+  color: #FFFFFF;
+ }
+ .google-user-badge {
+  background: rgba(30, 58, 95, 0.75);
+  color: #D9E7FF;
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+ }
+ .stop-program {
+  background: rgba(127, 29, 29, 0.28);
+  border-color: rgba(248, 113, 113, 0.28);
+  color: #FCA5A5;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.08);
+ }
+ .stop-program:hover:not(:disabled) {
+  background: rgba(127, 29, 29, 0.42);
+  border-color: rgba(248, 113, 113, 0.42);
+  color: #FECACA;
+ }
+ .textbtn {
+  color: #93C5FD;
+ }
+ .textbtn:hover:not(:disabled) {
+  background: rgba(147, 197, 253, 0.12);
+  border-color: rgba(147, 197, 253, 0.2);
+ }
+ .textbtn.danger {
+  color: #FCA5A5;
+ }
+ .textbtn.danger:hover:not(:disabled) {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: rgba(239, 68, 68, 0.25);
+ }
+ .iconbtn {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(255, 255, 255, 0.18);
+  color: #CBD5E1;
+ }
+ .iconbtn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.14);
+  color: #FFFFFF;
+ }
+}
+
+@media(prefers-reduced-motion:reduce){
+ .liquid-glass-btn,
+ :is(.shell, [data-slot=dialog-content], [data-slot=alert-dialog-content]) button {
+  transition: none !important;
+  transform: none !important;
+ }
+}
+
+/* ==========================================================================
+   iPhone 15 Pro & Mobile Viewport Architecture (393px × 852px)
+   Safe Areas, Dynamic Island, Home Indicator, and 44pt Touch Targets
+   ========================================================================== */
+
+/* Header layout & Google Authentication Bar */
+header.cadence-header,
+header {
+ display: flex;
+ align-items: center;
+ justify-content: space-between;
+ gap: 8px;
+ padding: 22px 0 20px;
+}
+.header-actions {
+ display: flex;
+ align-items: center;
+ gap: 8px;
+ flex-shrink: 1;
+ min-width: 0;
+ justify-content: flex-end;
+}
+.header-user-status {
+ display: flex;
+ align-items: center;
+ gap: 6px;
+ min-width: 0;
+ flex-shrink: 1;
+}
+
+@media(max-width: 650px) {
+ /* iPhone 15 Pro Safe Area Insets (Top: Dynamic Island ~59px, Bottom: Home Bar ~34px) */
+ html {
+  scroll-padding-top: calc(16px + env(safe-area-inset-top, 0px));
+  scroll-padding-bottom: calc(var(--cadence-dock-height, 62px) + 28px + env(safe-area-inset-bottom, 0px));
+ }
+ .shell {
+  padding-top: max(14px, env(safe-area-inset-top, 0px));
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-bottom: calc(var(--cadence-dock-height, 62px) + 28px + env(safe-area-inset-bottom, 0px));
+ }
+
+ /* Header on 393px iPhone 15 Pro Viewport */
+ header.cadence-header,
+ header {
+  padding: 12px 0 16px;
+  gap: 8px;
+ }
+ header .header-date {
+  display: none !important;
+ }
+ header .brand {
+  flex-shrink: 0;
+ }
+ header .brand b {
+  font-size: 1.35rem;
+ }
+ .google-login-btn {
+  min-height: 42px;
+  padding: 7px 14px;
+  font-size: 0.8125rem;
+ }
+ .google-login-btn .btn-full-text {
+  display: none;
+ }
+ .google-login-btn .btn-short-text {
+  display: inline;
+ }
+ .google-user-badge {
+  padding: 5px 10px;
+  font-size: 0.75rem;
+  max-width: 105px;
+ }
+ .google-user-badge .google-user-name {
+  max-width: 75px;
+ }
+ .google-signout-btn {
+  min-height: 38px;
+  padding: 6px 12px;
+  font-size: 0.75rem;
+ }
+
+ /* Floating Glass Dock Navigation for iPhone 15 Pro thumb reach */
+ .shell .mainnav {
+  position: fixed;
+  left: max(14px, env(safe-area-inset-left, 0px));
+  right: max(14px, env(safe-area-inset-right, 0px));
+  width: auto;
+  bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+  height: 60px;
+  border-radius: 30px;
+  padding: 5px;
+  z-index: 30;
+ }
+ .shell .mainnav [data-slot=tabs-trigger] {
+  height: 48px;
+  padding: 4px 6px;
+  font-size: 0.75rem;
+  flex-direction: column;
+  gap: 2px;
+ }
+ .shell .mainnav [data-slot=tabs-trigger] svg {
+  width: 18px;
+  height: 18px;
+ }
+
+ /* 7-Day Week Calendar Strip across 393px width */
+ .calendar {
+  padding: 14px 6px !important;
+  border-radius: 20px;
+ }
+ .week {
+  gap: 3px !important;
+ }
+ .week button {
+  min-height: 56px;
+  padding: 8px 2px !important;
+  border-radius: 12px;
+  gap: 5px;
+ }
+ .week b {
+  font-size: 1.25rem !important;
+ }
+ .weekday {
+  font-size: 0.75rem !important;
+ }
+ .daymark {
+  width: 22px;
+  height: 22px;
+ }
+
+ /* Action CTAs thumb-reach optimization */
+ .schedule-head-controls {
+  width: 100%;
+ }
+ .schedule-head-actions {
+  width: 100%;
+  justify-content: flex-start;
+  gap: 8px;
+ }
+ .schedulegrid .daydetail > .primary,
+ .schedule-next-action {
+  width: 100%;
+  min-height: 48px;
+  font-size: 1rem;
+ }
+
+ /* Workout Session controls on iPhone 15 Pro */
+ .workout .setrow {
+  grid-template-columns: 36px minmax(0, 1fr) minmax(0, 1fr) 44px !important;
+  gap: 6px !important;
+  padding: 8px 4px !important;
+ }
+ .workout .setrow input {
+  min-height: 44px;
+  font-size: 1rem !important; /* Prevents unwanted iOS Safari viewport zoom */
+  border-radius: 10px;
+  padding: 8px 10px;
+ }
+ .workout .setrow [data-slot=checkbox] {
+  min-width: 32px;
+  min-height: 32px;
+  width: 32px;
+  height: 32px;
+ }
+ .workout-rest.compact-rest {
+  padding: 12px 14px;
+  border-radius: 16px;
+ }
+ .rest-compact-actions {
+  gap: 8px;
+ }
+ .workout-rest .rest-adjustments button,
+ .workout-rest .rest-skip {
+  min-height: 44px;
+  min-width: 44px;
+ }
+ .workout .formfooter {
+  flex-direction: column-reverse;
+  gap: 12px;
+ }
+ .workout .formfooter .primary {
+  width: 100%;
+  min-height: 50px;
+  font-size: 1rem;
+ }
+
+ /* History cards on 393px width */
+ .shell.history-view .historysummary {
+  gap: 8px;
+ }
+ .shell.history-view .historysummary > div {
+  padding: 12px 8px;
+ }
+ .shell.history-view .historysummary b {
+  font-size: 1.35rem;
+ }
+
+ /* Dialogs on iPhone 15 Pro */
+ .trainingdialog {
+  max-width: calc(100vw - 20px) !important;
+  max-height: calc(100dvh - 32px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px)) !important;
+  padding: 22px 16px !important;
+  border-radius: 24px !important;
+ }
+}
+
+@media(min-width: 651px) {
+ .google-login-btn .btn-short-text {
+  display: none;
+ }
+}
+
+/* Header User Status Button */
+.header-user-status-btn {
+ display: inline-flex;
+ align-items: center;
+ border: none;
+ background: transparent;
+ padding: 0;
+ cursor: pointer;
+ border-radius: 9999px;
+ transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease;
+}
+.header-user-status-btn:hover {
+ transform: translateY(-1px);
+}
+.header-user-status-btn:focus-visible {
+ outline: 2px solid #3b82f6;
+ outline-offset: 2px;
+}
+
+/* Settings Grid Architecture */
+.settingsgrid {
+ display: grid;
+ grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+ gap: 24px;
+}
+.settingsgrid .rest-notification-setting {
+ grid-column: 1 / -1;
+}
+
+@media(max-width: 800px) {
+ .settingsgrid {
+  grid-template-columns: 1fr;
+ }
+}
+

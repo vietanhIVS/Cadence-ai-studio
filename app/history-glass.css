@@ -11,14 +11,10 @@
 .shell.history-view .historysummary span{display:block;margin-top:6px;font-size:12px;line-height:1.5;font-weight:500;color:#64748B}
 .shell.history-view .history-filter-panel{margin-bottom:20px}
 .history-view .history-tools{padding:6px 8px 6px 14px;background:rgba(255,255,255,.55);border:1px solid rgba(255,255,255,.8);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);box-shadow:0 8px 22px rgba(37,99,235,.04),inset 0 1px 0 rgba(255,255,255,.95)}
-.shell.history-view .history-tools button.history-filter-toggle{min-height:44px;padding:4px 0;border:0;box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none;background:transparent;color:#475569;font-size:14px;font-weight:600;text-align:left}
-.shell.history-view .history-tools button.history-quick-add{width:32px;height:32px;padding:0;border:1px solid rgba(191,219,254,.75);background:rgba(37,99,235,.1);color:#2563EB;position:relative}
-/* Keep the requested 32px circle with a 44px touch target. */
-.history-quick-add::before{content:"";position:absolute;inset:-6px;border-radius:50%}
-.shell.history-view .history-tools button.history-quick-add:hover{background:rgba(37,99,235,.18)}
+.shell.history-view .history-tools button.history-filter-toggle{width:100%;min-height:44px;padding:4px 6px;border:0;box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none;background:transparent;color:#475569;font-size:14px;font-weight:600;display:flex;align-items:center;justify-content:space-between}
 .shell.history-view .history-filter-content{margin-top:12px;padding:16px;border-radius:20px;background:rgba(255,255,255,.65);border:1px solid rgba(255,255,255,.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);box-shadow:inset 0 1px 0 rgba(255,255,255,.95)}
 .shell.history-view .history-filter-content .historyfilters{margin:0;gap:12px}
-.history-view .history-filter-content :is(input,[data-slot=select-trigger]){background:rgba(255,255,255,.7)}
+.history-view .history-filter-content :is(input,[data-slot=select-trigger],.history-datepicker-trigger){background:rgba(255,255,255,.7)}
 .shell.history-view .historylist{display:grid;gap:12px}
 .shell.history-view .historylist button.history-workout-card{display:grid;grid-template-columns:56px minmax(0,1fr) auto;align-items:center;gap:16px;padding:16px;background:rgba(255,255,255,.72);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1.5px solid rgba(255,255,255,.85);border-radius:20px;box-shadow:0 10px 25px rgba(37,99,235,.05),inset 0 1px 0 rgba(255,255,255,.95);color:#0F172A;transition:background .2s,box-shadow .2s,transform .2s}
 .shell.history-view .historylist button.history-workout-card:hover{background:rgba(255,255,255,.88);box-shadow:0 12px 28px rgba(37,99,235,.08),inset 0 1px 0 rgba(255,255,255,.95)}
@@ -45,7 +41,8 @@
  .history-view .historylist .history-result-status{grid-column:2}
  .shell.history-view .history-filter-content .historyfilters>input{min-width:0;flex-basis:100%}
  .shell.history-view .history-filter-content .historyfilters>.choice{min-width:0;width:100%;flex-basis:100%}
- .shell.history-view .history-filter-content .historyfilters>.field{max-width:none;flex:1 1 40%}
+ .shell.history-view .history-filter-content .historyfilters>.field,
+ .shell.history-view .history-filter-content .historyfilters>.history-datepicker-field{max-width:none;flex:1 1 45%}
 }
 @media(prefers-color-scheme:dark){
  .shell.history-view{--foreground:#F1F5F9;--muted-foreground:#B4C3D9}
@@ -54,8 +51,7 @@
  .shell.history-view .historysummary span,.history-view .historylist :is(.history-card-context,.history-card-stats,.history-card-date>span){color:#B4C3D9}
  .history-view .history-tools,.history-view .historylist .history-card-date{background:rgba(30,41,59,.6);border-color:rgba(255,255,255,.18);box-shadow:inset 0 1px 0 rgba(255,255,255,.12)}
  .shell.history-view .history-tools button.history-filter-toggle{color:#CBD5E1}
- .shell.history-view .history-tools button.history-quick-add{background:rgba(59,130,246,.18);color:#93C5FD;border-color:rgba(147,197,253,.25)}
- .history-view .history-filter-content :is(input,[data-slot=select-trigger]){background:rgba(15,23,42,.7)}
+ .history-view .history-filter-content :is(input,[data-slot=select-trigger],.history-datepicker-trigger){background:rgba(15,23,42,.7)}
  .shell.history-view .historylist button.history-workout-card:hover{background:rgba(30,41,59,.9)}
  .history-view .historylist .history-result-status.completed{background:rgba(5,150,105,.15);border-color:rgba(110,231,183,.25);color:#6EE7B7}
  .history-view .historylist :is(.history-result-status.unscheduled,.history-extra){background:rgba(59,130,246,.15);border-color:rgba(147,197,253,.25);color:#93C5FD}

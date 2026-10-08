@@ -26,7 +26,35 @@ export type ResultSet={id:string;planned:boolean;prescriptionId?:string;reps:num
 export type ActualExercise={id:string;planned:PlanExercise|null;exerciseId:string;name:string;skipped:boolean;sets:ResultSet[]};
 export type Session={id:string;name:string;date:string;startedAt:string;timezone:string;occurrence:Occurrence|null;exercises:ActualExercise[];notes:string;timerEnd:number|null;timerId?:string|null;timerSource?:{exerciseId:string;setId:string}|null};
 export type Log=Session & {finishedAt:string;status:'COMPLETED'|'PARTIALLY_COMPLETED'|'UNSCHEDULED';correctedAt?:string};
-export type State={programs:Program[];schedules:Schedule[];session:Session|null;logs:Log[];customExercises:Exercise[];settings:{unit:'kg'|'lb';defaultRest:number}};
+export interface BodyMetricLog {
+  id: string;
+  timestamp: string; // ISO DateTime, required, default: current time
+  note?: string;      // Optional text (max 150 chars)
+
+  // Core & Body Composition
+  weight: number;             // REQUIRED (kg or lbs based on user settings)
+  bodyFatPercentage?: number; // % (optional)
+  muscleMass?: number;        // kg or lbs (optional)
+
+  // Upper Body Measurements (All optional, cm or in)
+  neck?: number;
+  shoulders?: number;
+  chest?: number;
+  leftArm?: number;
+  rightArm?: number;
+  leftForearm?: number;
+  rightForearm?: number;
+
+  // Core & Lower Body Measurements (All optional, cm or in)
+  waist?: number;
+  abdomen?: number;
+  hips?: number;
+  leftThigh?: number;
+  rightThigh?: number;
+  leftCalf?: number;
+  rightCalf?: number;
+}
+export type State={programs:Program[];schedules:Schedule[];session:Session|null;logs:Log[];customExercises:Exercise[];bodyMetrics?:BodyMetricLog[];settings:{unit:'kg'|'lb';defaultRest:number;lengthUnit?:'cm'|'in'}};
 export const uid=()=>crypto.randomUUID();
 export const clone=<T,>(x:T):T=>JSON.parse(JSON.stringify(x));
 export function dayNumber(date:string){return Date.parse(date+'T00:00:00Z')/86400000}
@@ -94,10 +122,13 @@ export function initialState():State{
  const configs=[{name:'Push / Pull / Legs',description:'A balanced split for strength and muscle.',days:[template('Push',['bench','incline','ohp','lateral','triceps']),template('Pull',['pulldown','row','seatedrow','curl']),rest,template('Legs',['squat','rdl','legcurl','calf']),rest]},{name:'Upper / Lower',description:'Train each muscle group twice per cycle.',days:[template('Upper A',['bench','row','ohp','curl']),template('Lower A',['squat','rdl','calf']),rest,template('Upper B',['incline','pulldown','lateral','triceps']),template('Lower B',['legpress','legcurl','lunge']),rest,rest]},{name:'Full Body',description:'A simple three-day cycle for total-body training.',days:[template('Full Body A',['squat','bench','row']),rest,template('Full Body B',['deadlift','ohp','pulldown'])]}];
  const programs:Program[]=configs.map((x,i)=>({id:`preset-${i+1}`,name:x.name,description:x.description,archived:false,preset:true,versions:[{id:`preset-${i+1}-v1`,number:1,days:clone(workoutDays(x.days)),createdAt:'2026-10-06T00:00:00.000Z'}]}));
  programs.push({id:'preset-user-ppl',name:'User PPL',description:'Detailed Push, Pull and Legs workouts with per-set targets, RPE and supersets. Repeat at your own pace.',archived:false,preset:true,versions:[{id:'preset-user-ppl-v1',number:1,days:clone(userPplWorkouts),createdAt:'2026-10-07T00:00:00.000Z'}]});
- return{programs,schedules:[],session:null,logs:[],customExercises:[],settings:{unit:'kg',defaultRest:90}};
+ return{programs,schedules:[],session:null,logs:[],customExercises:[],bodyMetrics:[],settings:{unit:'kg',defaultRest:90,lengthUnit:'cm'}};
 }
 export function withPresets(s:State):State{
  s.customExercises??=[];
+ s.bodyMetrics??=[];
+ s.settings??={unit:'kg',defaultRest:90,lengthUnit:'cm'};
+ s.settings.lengthUnit??='cm';
  // Older sessions stored skip at exercise level. Preserve performed sets and
  // materialize only the unperformed skipped sets for the new per-set UI.
  for(const workout of [...s.logs,...(s.session?[s.session]:[])])for(const exercise of workout.exercises)if(exercise.skipped)for(const set of exercise.sets)if(!set.done&&set.skipped===undefined)set.skipped=true;
