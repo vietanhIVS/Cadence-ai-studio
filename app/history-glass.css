@@ -1,0 +1,66 @@
+/* History shares the daylight canvas and Jakarta typography of Schedule. */
+.history-detail-actions{display:flex;align-items:center;flex-wrap:wrap;gap:12px;margin-top:26px}
+.history-detail-actions .history-edit-log{margin-top:0}
+.shell.history-view .history-detail-actions .history-delete-log{color:#B91C1C;background:rgba(239,68,68,.05);border-color:rgba(220,38,38,.2);min-height:44px}
+@media(max-width:650px){.history-detail-actions{flex-direction:column;align-items:stretch}.history-detail-actions>button{width:100%}}
+@media(prefers-color-scheme:dark){.shell.history-view .history-detail-actions .history-delete-log{color:#FCA5A5;background:rgba(239,68,68,.08);border-color:rgba(248,113,113,.25)}}
+.shell.history-view{--foreground:#0F172A;--muted-foreground:#64748B}
+.shell.history-view .historysummary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:20px}
+.shell.history-view .historysummary>div{min-width:0;padding:18px 16px;background:rgba(255,255,255,.65);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1.5px solid rgba(255,255,255,.85);border-radius:20px;box-shadow:0 8px 22px rgba(37,99,235,.04),inset 0 1px 0 rgba(255,255,255,.95)}
+.shell.history-view .historysummary b{display:block;font-size:28px;line-height:1.25;font-weight:800;color:#0F172A;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.shell.history-view .historysummary span{display:block;margin-top:6px;font-size:12px;line-height:1.5;font-weight:500;color:#64748B}
+.shell.history-view .history-filter-panel{margin-bottom:20px}
+.history-view .history-tools{padding:6px 8px 6px 14px;background:rgba(255,255,255,.55);border:1px solid rgba(255,255,255,.8);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);box-shadow:0 8px 22px rgba(37,99,235,.04),inset 0 1px 0 rgba(255,255,255,.95)}
+.shell.history-view .history-tools button.history-filter-toggle{min-height:44px;padding:4px 0;border:0;box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none;background:transparent;color:#475569;font-size:14px;font-weight:600;text-align:left}
+.shell.history-view .history-tools button.history-quick-add{width:32px;height:32px;padding:0;border:1px solid rgba(191,219,254,.75);background:rgba(37,99,235,.1);color:#2563EB;position:relative}
+/* Keep the requested 32px circle with a 44px touch target. */
+.history-quick-add::before{content:"";position:absolute;inset:-6px;border-radius:50%}
+.shell.history-view .history-tools button.history-quick-add:hover{background:rgba(37,99,235,.18)}
+.shell.history-view .history-filter-content{margin-top:12px;padding:16px;border-radius:20px;background:rgba(255,255,255,.65);border:1px solid rgba(255,255,255,.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);box-shadow:inset 0 1px 0 rgba(255,255,255,.95)}
+.shell.history-view .history-filter-content .historyfilters{margin:0;gap:12px}
+.history-view .history-filter-content :is(input,[data-slot=select-trigger]){background:rgba(255,255,255,.7)}
+.shell.history-view .historylist{display:grid;gap:12px}
+.shell.history-view .historylist button.history-workout-card{display:grid;grid-template-columns:56px minmax(0,1fr) auto;align-items:center;gap:16px;padding:16px;background:rgba(255,255,255,.72);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1.5px solid rgba(255,255,255,.85);border-radius:20px;box-shadow:0 10px 25px rgba(37,99,235,.05),inset 0 1px 0 rgba(255,255,255,.95);color:#0F172A;transition:background .2s,box-shadow .2s,transform .2s}
+.shell.history-view .historylist button.history-workout-card:hover{background:rgba(255,255,255,.88);box-shadow:0 12px 28px rgba(37,99,235,.08),inset 0 1px 0 rgba(255,255,255,.95)}
+.history-view .historylist .history-card-date{width:56px;min-height:68px;padding:7px 4px;border:1px solid rgba(255,255,255,.65);border-radius:14px;background:rgba(241,245,249,.6);gap:2px;box-shadow:inset 0 1px 0 rgba(255,255,255,.95)}
+.history-view .historylist .history-card-date>span{font-size:11px;line-height:1.4;color:#64748B;font-weight:500}
+.history-view .historylist .history-card-date>span:first-child{font-weight:700;letter-spacing:.05em}
+.history-view .historylist .history-card-date>b{font-size:22px;font-weight:800;line-height:1.2;color:#0F172A}
+.history-view .historylist .history-card-content{gap:5px;padding:0}
+.history-view .historylist .history-card-content>strong{font-size:16px;font-weight:700;line-height:1.4;white-space:normal;overflow-wrap:anywhere;padding:0}
+.history-view .historylist .history-card-context{font-size:13px;line-height:1.5;color:#64748B}
+.history-view .historylist .history-card-stats{gap:6px 12px;font-size:13px;line-height:1.5;color:#64748B}
+.history-view .historylist .history-extra{padding:2px 8px;border-radius:999px;background:rgba(219,234,254,.5);color:#2563EB;font-size:12px;font-weight:600}
+.history-view .historylist .history-result-status{font-size:12px;font-weight:600;line-height:1.5;padding:5px 10px;border:1px solid transparent;gap:6px;justify-self:start}
+.history-view .historylist .history-result-status.unscheduled{background:rgba(219,234,254,.5);border-color:rgba(191,219,254,.75);color:#1D4ED8}
+.history-view .historylist .history-result-status.completed{background:rgba(209,250,229,.6);border-color:rgba(167,243,208,.8);color:#047857}
+.history-view .historylist .history-result-status.partial{background:rgba(225,131,53,.12);border-color:rgba(225,131,53,.2);color:#B45309}
+.history-view .historylist .history-result-status.skipped{background:rgba(100,116,139,.1);border-color:rgba(100,116,139,.18);color:#475569}
+.history-view .historylist .history-status-dot{width:6px;height:6px;flex-shrink:0;border-radius:50%;background:#059669;box-shadow:0 0 7px rgba(5,150,105,.35);animation:historyStatusPulse 2.6s ease-in-out infinite}
+@keyframes historyStatusPulse{0%,100%{box-shadow:0 0 0 0 rgba(5,150,105,.12)}50%{box-shadow:0 0 0 3px rgba(5,150,105,.08)}}
+@media(max-width:650px){
+ .shell.history-view .historysummary>div{padding:14px 10px}
+ .shell.history-view .historylist button.history-workout-card{grid-template-columns:56px minmax(0,1fr);gap:10px 14px}
+ .history-view .historylist .history-card-date{grid-row:1/span 2;align-self:start}
+ .history-view .historylist .history-result-status{grid-column:2}
+ .shell.history-view .history-filter-content .historyfilters>input{min-width:0;flex-basis:100%}
+ .shell.history-view .history-filter-content .historyfilters>.choice{min-width:0;width:100%;flex-basis:100%}
+ .shell.history-view .history-filter-content .historyfilters>.field{max-width:none;flex:1 1 40%}
+}
+@media(prefers-color-scheme:dark){
+ .shell.history-view{--foreground:#F1F5F9;--muted-foreground:#B4C3D9}
+ .shell.history-view :is(.historysummary>div,.history-filter-content),.shell.history-view .historylist button.history-workout-card{background:rgba(15,23,42,.72);border-color:rgba(255,255,255,.16);box-shadow:0 10px 25px rgba(0,0,0,.12),inset 0 1px 0 rgba(255,255,255,.12);color:#F1F5F9}
+ .shell.history-view .historysummary b,.history-view .historylist .history-card-date>b{color:#F1F5F9}
+ .shell.history-view .historysummary span,.history-view .historylist :is(.history-card-context,.history-card-stats,.history-card-date>span){color:#B4C3D9}
+ .history-view .history-tools,.history-view .historylist .history-card-date{background:rgba(30,41,59,.6);border-color:rgba(255,255,255,.18);box-shadow:inset 0 1px 0 rgba(255,255,255,.12)}
+ .shell.history-view .history-tools button.history-filter-toggle{color:#CBD5E1}
+ .shell.history-view .history-tools button.history-quick-add{background:rgba(59,130,246,.18);color:#93C5FD;border-color:rgba(147,197,253,.25)}
+ .history-view .history-filter-content :is(input,[data-slot=select-trigger]){background:rgba(15,23,42,.7)}
+ .shell.history-view .historylist button.history-workout-card:hover{background:rgba(30,41,59,.9)}
+ .history-view .historylist .history-result-status.completed{background:rgba(5,150,105,.15);border-color:rgba(110,231,183,.25);color:#6EE7B7}
+ .history-view .historylist :is(.history-result-status.unscheduled,.history-extra){background:rgba(59,130,246,.15);border-color:rgba(147,197,253,.25);color:#93C5FD}
+ .history-view .historylist .history-result-status.partial{background:rgba(225,131,53,.15);color:#FDBA74}
+ .history-view .historylist .history-result-status.skipped{color:#CBD5E1}
+}
+@media(prefers-reduced-motion:reduce){.history-view .historylist .history-status-dot{animation:none}.shell.history-view .historylist button.history-workout-card{transition:none}}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.shell.history-view :is(.historysummary>div,.history-tools,.history-filter-content),.shell.history-view .historylist button.history-workout-card{background:var(--surface)}}

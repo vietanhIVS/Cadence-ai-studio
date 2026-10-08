@@ -1,0 +1,91 @@
+/* Shared Daylight brand material for Schedule and workout result cards. */
+.shell.schedule-view:not(.workout-view){
+ --schedule-indigo:#0B132B;
+ --schedule-active:#2454FF;
+ --schedule-sky:#458CFF;
+ --schedule-gray:#657D95;
+ --primary:var(--schedule-active);
+ --foreground:var(--schedule-indigo);
+ --secondary-foreground:#1738C9;
+ /* A little more ink than the icon token keeps small copy legible over glass. */
+ --muted-foreground:#566D84;
+}
+.shell.schedule-view :is(.daydetail,.recorded-workouts),
+.shell .history-workout-detail :is(.history-completion-card,.history-performance-card){
+ background:rgba(255,255,255,.65);
+ backdrop-filter:blur(24px) saturate(190%);
+ -webkit-backdrop-filter:blur(24px) saturate(190%);
+ border:1.5px solid rgba(255,255,255,.85);
+ border-radius:20px;
+ box-shadow:0 12px 30px rgba(36,84,255,.05),0 4px 12px rgba(15,23,42,.02),inset 0 1px 0 rgba(255,255,255,.95);
+}
+.shell.schedule-view :is(.daydetail,.recorded-workouts) :is(h2,h3,.eyebrow){color:var(--schedule-indigo)}
+.shell.schedule-view .recorded-workouts .history-workout-card{
+ background:rgba(243,247,254,.5);
+ border:1px solid rgba(255,255,255,.6);
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.8),0 2px 8px rgba(0,0,0,.02);
+ /* The parent supplies the blur; avoid another expensive mobile blur layer. */
+ backdrop-filter:none;-webkit-backdrop-filter:none;
+ border-radius:999px;
+ padding:18px 22px;
+}
+.shell.schedule-view .recorded-workouts .history-workout-card:hover{background:rgba(243,247,254,.85)}
+.shell.schedule-view .recorded-workouts .history-card-date{border-color:rgba(101,125,149,.22)}
+.shell.schedule-view .recorded-workouts .history-card-stats svg{color:var(--schedule-gray)}
+.shell.schedule-view :is(.status.in_progress,.history-result-status.unscheduled){
+ background:rgba(59,130,246,.15);color:#1D4ED8;
+ border:1px solid rgba(69,140,255,.2);font-weight:600;border-radius:999px;
+}
+.shell.schedule-view :is(.status.partially_completed,.history-result-status.partial){background:rgba(225,131,53,.15);color:#B45309;border:1px solid rgba(225,131,53,.15)}
+.shell.schedule-view .status.planned{background:rgba(36,84,255,.08);border-color:rgba(69,140,255,.3);color:#1738C9}
+.shell.schedule-view :is(.daydetail .schedule-next-action,.sessionbanner button){
+ /* Keep the requested bright-blue material, with a thin ink layer for AA white labels. */
+ background:linear-gradient(rgba(11,19,43,.22),rgba(11,19,43,.22)),linear-gradient(135deg,#458CFF 0%,#2454FF 100%);
+ color:#FFFFFF;border:1px solid rgba(255,255,255,.35);
+ box-shadow:0 8px 24px rgba(36,84,255,.3),inset 0 1px 0 rgba(255,255,255,.45);
+ font-weight:600;border-radius:999px;
+}
+.shell.schedule-view .calendar .week>button.selected{
+ background:linear-gradient(180deg,#2E60FF 0%,#1738C9 100%);
+ color:#FFFFFF;border-color:rgba(255,255,255,.35);
+ box-shadow:0 10px 20px rgba(36,84,255,.25),inset 0 0 0 1px rgba(255,255,255,.1);
+}
+.shell.schedule-view .calendar .week>button.selected :is(.weekday,.dayname,.daymark,b,svg){color:#FFFFFF}
+.shell.schedule-view .cycle>span.active{background:#2454FF;color:#FFFFFF;box-shadow:0 4px 10px rgba(36,84,255,.3)}
+@media(max-width:650px){
+ .shell.schedule-view .recorded-workouts .history-workout-card{padding:16px 14px;gap:10px}
+}
+@media(max-width:360px){
+ .shell.schedule-view .recorded-workouts .history-workout-card{border-radius:26px;padding:14px 12px;flex-wrap:wrap}
+ .shell.schedule-view .recorded-workouts .history-card-content{flex-basis:calc(100% - 60px)}
+ .shell.schedule-view .recorded-workouts .history-result-status{margin-left:58px}
+}
+@media(prefers-color-scheme:dark){
+ .shell.schedule-view:not(.workout-view){--schedule-indigo:#F1F5F9;--schedule-gray:#B4C3D9;--foreground:#F1F5F9;--muted-foreground:#B4C3D9;--secondary-foreground:#BFDBFE}
+ .shell.schedule-view :is(.daydetail,.recorded-workouts),.shell .history-workout-detail :is(.history-completion-card,.history-performance-card){background:rgba(15,23,42,.76);border-color:rgba(255,255,255,.14);box-shadow:0 12px 30px rgba(0,0,0,.2),inset 0 1px 0 rgba(255,255,255,.12)}
+ .shell.schedule-view .recorded-workouts .history-workout-card{background:rgba(36,54,82,.5);border-color:rgba(255,255,255,.12);box-shadow:inset 0 1px 0 rgba(255,255,255,.1),0 2px 8px rgba(0,0,0,.08)}
+ .shell.schedule-view .recorded-workouts .history-workout-card:hover{background:rgba(44,65,98,.8)}
+ .shell.schedule-view .recorded-workouts .history-card-date{border-color:rgba(180,195,217,.2)}
+ .shell.schedule-view :is(.status.in_progress,.history-result-status.unscheduled,.status.planned){background:rgba(59,130,246,.18);color:#BFDBFE;border-color:rgba(147,197,253,.25)}
+ .shell.schedule-view :is(.status.partially_completed,.history-result-status.partial){background:rgba(225,131,53,.18);color:#FDBA74;border-color:rgba(253,186,116,.2)}
+}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
+ .shell.schedule-view :is(.daydetail,.recorded-workouts),.shell .history-workout-detail :is(.history-completion-card,.history-performance-card){background:var(--surface)}
+}
+
+/* Completion and Performance use the same material in History and Workout Summary. */
+.shell .history-workout-detail{--result-ink:#0B132B;--result-muted:#566D84;--result-icon:#657D95;--result-blue:#2454FF}
+.shell .history-workout-detail :is(.history-completion-card,.history-performance-card),
+.shell .history-workout-detail .history-performance>h3{color:var(--result-ink)}
+.shell .history-workout-detail :is(.history-completion-card>p,.history-completion-ring span,.history-performance-card p){color:var(--result-muted)}
+.shell .history-workout-detail .history-performance-card>div:first-child p{color:var(--result-ink)}
+.shell .history-workout-detail .history-completion-ring b{color:var(--result-blue)}
+.shell .history-workout-detail .history-ring-value{stroke:var(--result-blue)}
+.shell .history-workout-detail .history-ring-track{stroke:rgba(101,125,149,.16)}
+.shell .history-workout-detail .history-performance-icon{color:var(--result-icon)}
+.shell .history-workout-detail .history-performance-icon.completed{background:var(--result-blue);color:#FFFFFF}
+@media(prefers-color-scheme:dark){
+ .shell .history-workout-detail{--result-ink:#F1F5F9;--result-muted:#B4C3D9;--result-icon:#B4C3D9;--result-blue:#93C5FD}
+ .shell .history-workout-detail .history-ring-track{stroke:rgba(180,195,217,.18)}
+ .shell .history-workout-detail .history-performance-icon.completed{background:#2454FF;color:#FFFFFF}
+}

@@ -1,0 +1,94 @@
+/* Paint one document canvas. Fixed-attachment gradients can be mis-sized by
+   WebKit's full-document/PDF capture; no separate viewport/compositor layer. */
+html:has(.shell){
+ --cadence-canvas-base:#EFF4FA;
+ background-color:var(--cadence-canvas-base);
+ background-image:radial-gradient(ellipse at 12% 16%,rgba(36,84,255,.06),transparent 55%),radial-gradient(ellipse at 88% 72%,rgba(36,84,255,.06),transparent 58%),linear-gradient(145deg,#EFF4FA,#E2ECF8);
+ background-attachment:scroll;
+ background-repeat:no-repeat;
+}
+body:has(.shell){
+ background:transparent;
+ min-height:100dvh;
+}
+.shell.schedule-view{--primary:#2563EB;--secondary-foreground:#1D4ED8;--foreground:#0F172A;--muted-foreground:#4C5D73;--border:rgba(100,116,139,.2);--glass:rgba(255,255,255,.72);--glass-border:rgba(255,255,255,.8);--glass-shadow:0 10px 30px rgba(15,23,42,.05),inset 0 1px 1px rgba(255,255,255,.95);color:var(--foreground)}
+.schedule-view .panel,.schedule-view .schedule-kudos,.schedule-view .schedule-next-program,.schedule-view .schedule-completed-card{
+ background:var(--glass);backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);border:1px solid var(--glass-border);box-shadow:var(--glass-shadow);border-radius:20px;
+}
+.schedule-view .mainnav{background:rgba(255,255,255,.8);backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);border:1px solid rgba(255,255,255,.7);border-radius:999px;box-shadow:var(--glass-shadow)}
+.schedule-view .mainnav [data-slot=tabs-trigger]{color:#5B6B82;background:transparent;border:1px solid transparent;border-radius:999px;transition:background .18s,box-shadow .18s,color .18s}
+.schedule-view .mainnav [data-slot=tabs-trigger]:hover{background:rgba(255,255,255,.55)}
+.schedule-view .mainnav [data-slot=tabs-trigger][data-state=active],.schedule-view .exercise-nav button.selected{
+ background:linear-gradient(135deg,#2563EB,#1D4ED8);color:#FFFFFF;font-weight:600;box-shadow:0 6px 16px rgba(37,99,235,.35);border:1px solid rgba(255,255,255,.3);
+}
+.schedule-view .mainnav [data-state=active] svg{color:#FFFFFF}
+.schedule-view .calendar .week>button{background:rgba(255,255,255,.5);border:1px solid rgba(255,255,255,.7);color:#0F172A;transition:transform .18s,box-shadow .18s,background .18s}
+.schedule-view .calendar .week>button .weekday,.schedule-view .calendar .week>button .dayname,.schedule-view .calendar .week>button .daymark.rest{color:#5B6B82}
+.schedule-view .calendar .week>button .daymark{color:#2563EB}
+.schedule-view .calendar .week>button .daymark.complete{background:#2563EB;color:#FFFFFF}
+.schedule-view .calendar .week>button:hover:not(.selected){background:rgba(255,255,255,.85)}
+.schedule-view .calendar .week>button.selected{background:linear-gradient(160deg,#1E40AF,#2563EB);color:#FFFFFF;border:1px solid rgba(255,255,255,.5);box-shadow:0 12px 24px -4px rgba(37,99,235,.45),inset 0 1px 1px rgba(255,255,255,.5);transform:translateY(-2px)}
+.schedule-view .calendar .week>button.selected :is(.weekday,.dayname,.daymark,.daymark.rest,b,svg){color:#FFFFFF}
+.schedule-view .calendar .week>button.selected .daymark.complete{background:rgba(255,255,255,.18);color:#FFFFFF}
+.schedule-view .cycle>span{background:rgba(15,23,42,.05);color:#475569;border:1px solid rgba(255,255,255,.4)}
+.schedule-view .cycle>span.active{background:#2563EB;color:#FFFFFF;font-weight:600;border-color:rgba(255,255,255,.35);box-shadow:0 4px 10px rgba(37,99,235,.3)}
+.schedule-view .cycle small{opacity:1}
+.schedule-view .status.planned{display:inline-flex;align-items:center;gap:7px;background:rgba(37,99,235,.08);border:1px solid rgba(37,99,235,.25);color:#1D4ED8;font-weight:600}
+.schedule-view .status.planned::before{content:"";width:6px;height:6px;flex-shrink:0;border-radius:50%;background:currentColor;box-shadow:0 0 7px rgba(37,99,235,.4)}
+.schedule-view .primary{background:linear-gradient(135deg,#2563EB,#1D4ED8);color:#FFFFFF;box-shadow:0 6px 16px rgba(37,99,235,.2)}
+.schedule-view .secondary,.schedule-view .iconbtn,.schedule-view .datejump{background:rgba(255,255,255,.55);border-color:rgba(100,116,139,.25);color:#475569}
+.schedule-view .secondary:hover,.schedule-view .iconbtn:hover{background:rgba(255,255,255,.9)}
+.schedule-view :is(button,input,summary):focus-visible{outline:3px solid #1D4ED8;outline-offset:3px}
+.schedule-view .week>button.selected:focus-visible,.schedule-view .mainnav [data-state=active]:focus-visible{outline:3px solid #0F172A;outline-offset:3px}
+
+/* Dedicated stop confirmation; other confirmations retain their existing behavior. */
+body:has(.stop-program-dialog) [data-slot=dialog-overlay]{background:rgba(15,23,42,.4);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.stop-program-dialog[data-slot=dialog-content]{display:flex;flex-direction:column;align-items:stretch;gap:14px;width:calc(100vw - 32px);max-width:440px;max-height:calc(100dvh - 32px);overflow-y:auto;padding:24px;border-radius:20px;background:rgba(255,255,255,.85);backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);border:1px solid rgba(255,255,255,.9);box-shadow:0 20px 50px rgba(15,23,42,.15),inset 0 1px 1px #FFFFFF;text-align:left;color:#0F172A}
+.stop-program-dialog [data-slot=dialog-title]{font-size:20px;font-weight:700;line-height:1.3;color:#0F172A;margin:0}
+.stop-program-dialog [data-slot=dialog-description]{font-size:14px;line-height:1.5;color:#526277;margin:0;white-space:pre-line}
+.stop-dialog-warning{display:grid;place-items:center;width:44px;height:44px;border-radius:14px;background:rgba(220,38,38,.09);border:1px solid rgba(220,38,38,.12);color:#B91C1C}
+.stop-dialog-actions{display:flex;flex-direction:row;justify-content:flex-end;gap:10px;margin-top:8px}
+.stop-dialog-actions button{min-height:44px;padding:11px 18px;border-radius:12px;font-size:14px;line-height:1.4;font-weight:600;transition:transform .18s,box-shadow .18s,background .18s}
+.stop-dialog-cancel{background:rgba(255,255,255,.6);border:1px solid rgba(15,23,42,.12);color:#475569}
+.stop-dialog-cancel:hover{background:rgba(255,255,255,.9)}
+.stop-dialog-confirm{background:linear-gradient(135deg,#DC2626,#B91C1C);color:#FFFFFF;border:1px solid rgba(255,255,255,.25);box-shadow:0 6px 18px rgba(220,38,38,.35)}
+.stop-dialog-confirm:hover:not(:disabled){background:linear-gradient(135deg,#D92323,#B51B1B);transform:translateY(-1px);box-shadow:0 8px 22px rgba(220,38,38,.4)}
+.stop-dialog-actions button:focus-visible{outline:3px solid #0F172A;outline-offset:3px}
+.stop-dialog-actions button:disabled{opacity:.65;cursor:wait}
+.stop-program-dialog[data-state=open]{animation:stop-glass-in .2s ease-out both}
+@keyframes stop-glass-in{from{opacity:0;scale:.96}to{opacity:1;scale:1}}
+@media(max-width:650px){.schedule-view .mainnav{border-radius:28px}.stop-dialog-actions>button{flex:1;padding-inline:12px}}
+@media(prefers-color-scheme:dark){
+ html:has(.shell){--cadence-canvas-base:#0B1220;background-image:radial-gradient(ellipse at 12% 16%,rgba(37,99,235,.18),transparent 55%),radial-gradient(ellipse at 88% 72%,rgba(37,99,235,.12),transparent 58%),linear-gradient(145deg,#0B1220,#101E36)}
+ .shell.schedule-view{--foreground:#F1F5F9;--muted-foreground:#B4C3D9;--secondary-foreground:#BFDBFE;--glass:rgba(15,23,42,.76);--glass-border:rgba(255,255,255,.14);--glass-shadow:0 10px 30px rgba(0,0,0,.2),inset 0 1px 1px rgba(255,255,255,.1)}
+ .schedule-view .mainnav{background:rgba(15,23,42,.96);border-color:rgba(255,255,255,.14)}
+ .schedule-view .mainnav [data-slot=tabs-trigger]{color:#B4C3D9}
+ .schedule-view .mainnav [data-slot=tabs-trigger]:hover{background:rgba(255,255,255,.08)}
+ .schedule-view .mainnav [data-slot=tabs-trigger][data-state=active]{background:linear-gradient(135deg,#2563EB,#1D4ED8);color:#FFFFFF}
+ .schedule-view .calendar .week>button{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.12);color:#F1F5F9}
+ .schedule-view .calendar .week>button :is(.weekday,.dayname,.daymark.rest){color:#B4C3D9}
+ .schedule-view .calendar .week>button .daymark{color:#93C5FD}
+ .schedule-view .calendar .week>button:hover:not(.selected){background:rgba(255,255,255,.1)}
+ .schedule-view .calendar .week>button.selected{background:linear-gradient(160deg,#1E40AF,#2563EB);border-color:rgba(255,255,255,.5);color:#FFFFFF}
+ .schedule-view .calendar .week>button.selected :is(.weekday,.dayname,.daymark,b,svg){color:#FFFFFF}
+ .schedule-view .cycle>span{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.1);color:#CBD5E1}
+ .schedule-view .cycle>span.active{background:#2563EB;border-color:rgba(255,255,255,.35);color:#FFFFFF}
+ .schedule-view .status.planned{background:rgba(37,99,235,.18);border-color:rgba(147,197,253,.35);color:#BFDBFE}
+ .schedule-view .secondary,.schedule-view .iconbtn,.schedule-view .datejump{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.2);color:#CBD5E1}
+ .schedule-view .secondary:hover,.schedule-view .iconbtn:hover{background:rgba(255,255,255,.12)}
+ .schedule-view .textbtn,.schedule-view .planned-preview summary,.schedule-view .schedule-next-program strong,.schedule-view .schedule-completed-day h3{color:#93C5FD}
+ .schedule-view :is(button,input,summary):focus-visible{outline-color:#93C5FD}
+ .stop-program-dialog[data-slot=dialog-content]{background:rgba(15,23,42,.92);border-color:rgba(255,255,255,.18);color:#F1F5F9;box-shadow:0 20px 50px rgba(0,0,0,.35),inset 0 1px 1px rgba(255,255,255,.12)}
+ .stop-program-dialog [data-slot=dialog-title]{color:#F1F5F9}.stop-program-dialog [data-slot=dialog-description]{color:#B4C3D9}
+ .stop-dialog-warning{background:rgba(239,68,68,.13);border-color:rgba(248,113,113,.2);color:#FCA5A5}
+ .stop-dialog-cancel{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.18);color:#CBD5E1}.stop-dialog-cancel:hover{background:rgba(255,255,255,.12)}
+ .stop-dialog-actions button:focus-visible{outline-color:#BFDBFE}
+}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.schedule-view .panel,.schedule-view .mainnav,.schedule-view .schedule-kudos,.schedule-view .schedule-next-program,.schedule-view .schedule-completed-card{background:var(--surface)}.stop-program-dialog[data-slot=dialog-content]{background:var(--surface)}}
+@media(prefers-reduced-motion:reduce){.schedule-view .week>button,.schedule-view .mainnav [data-slot=tabs-trigger],.stop-dialog-actions button{transition:none}.schedule-view .calendar .week>button.selected{transform:none}.stop-program-dialog[data-state=open],body:has(.stop-program-dialog) [data-slot=dialog-overlay]{animation:none}.stop-dialog-confirm:hover:not(:disabled){transform:none}}
+
+/* Safari Full Page uses PDF/print painting on some iOS versions. Keep its
+   canvas uncomposited and finite; screen cards and layout are unchanged. */
+@media print{
+ html:has(.shell){background-image:none;background-color:var(--cadence-canvas-base);background-attachment:scroll;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}

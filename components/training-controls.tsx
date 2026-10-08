@@ -1,0 +1,22 @@
+"use client";
+import {Select,SelectTrigger,SelectValue,SelectContent,SelectItem} from '@/components/ui/select';
+import {Combobox,ComboboxInput,ComboboxContent,ComboboxList,ComboboxItem,ComboboxEmpty} from '@/components/ui/combobox';
+import {catalog,Exercise,CustomExerciseInput} from '@/lib/cadence';
+import {cardLabel} from '@/lib/display-label';
+import {useState,useCallback} from 'react';
+import CustomExerciseFields from './custom-exercise-fields';
+export function Choice({value,onChange,options,label}: {value:string;onChange:(v:string)=>void;options:{value:string;label:string}[];label:string}){return <Select value={value} onValueChange={onChange}><SelectTrigger aria-label={label} className="choice"><SelectValue placeholder={label}/></SelectTrigger><SelectContent>{options.map(o=><SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>)}</SelectContent></Select>}
+export function ExercisePicker({onPick,labeledFilters=false,exercises=catalog,onCreate}:{onPick:(e:Exercise)=>void;labeledFilters?:boolean;exercises?:Exercise[];onCreate?:(input:CustomExerciseInput)=>Promise<Exercise|null>}){
+ const [portalContainer,setPortalContainer]=useState<HTMLElement|null>(null);const bindPicker=useCallback((node:HTMLDivElement|null)=>setPortalContainer(node?.closest<HTMLElement>('[role=dialog]')||null),[]);
+ const [muscle,setMuscle]=useState('All'),[equipment,setEquipment]=useState('All'),[query,setQuery]=useState(''),[creating,setCreating]=useState(false),[open,setOpen]=useState(false);
+ const items=exercises.filter(e=>!e.archived&&(muscle==='All'||e.muscle===muscle)&&(equipment==='All'||e.equipment===equipment));
+ const exact=exercises.some(e=>!e.archived&&e.name.toLowerCase()===query.trim().toLowerCase());
+ const createButton=onCreate&&(!query.trim()||!exact)?<button type="button" className="textbtn create-custom-exercise" onClick={()=>{setOpen(false);setCreating(true)}}>{query.trim()?'Create “'+query.trim()+'”':'Create custom exercise'}</button>:null;
+ return <div className="picker" ref={bindPicker}>{creating&&onCreate?<CustomExerciseFields key={query} initial={{name:query.trim(),muscle:muscle==='All'?'':muscle,equipment:equipment==='All'?'':equipment,notes:''}} label="Save & add exercise" onCancel={()=>setCreating(false)} onSave={async input=>{const created=await onCreate(input);if(!created)return false;setCreating(false);onPick(created);return true}}/>:<>
+  <div className="row"><div className="pickerfilter">{labeledFilters&&<span className="eyebrow">Muscle</span>}<Choice label="Muscle group" value={muscle} onChange={setMuscle} options={['All',...new Set(exercises.map(e=>e.muscle).filter(Boolean))].map(x=>({value:x,label:x==='All'?'All muscles':x}))}/></div><div className="pickerfilter">{labeledFilters&&<span className="eyebrow">Equipment</span>}<Choice label="Equipment" value={equipment} onChange={setEquipment} options={['All',...new Set(exercises.map(e=>e.equipment).filter(Boolean))].map(x=>({value:x,label:x==='All'?'All equipment':x}))}/></div></div>
+  <Combobox items={items} inputValue={query} onInputValueChange={setQuery} open={open} onOpenChange={setOpen} itemToStringLabel={(e:Exercise)=>e.name} value={null} onValueChange={(e:Exercise|null)=>{if(e)onPick(e)}}><ComboboxInput placeholder="Search and select an exercise" aria-label="Search exercise catalog"/><ComboboxContent portalContainer={portalContainer||undefined}><ComboboxEmpty>No exercise found{query.trim()?' for “'+query.trim()+'”':'.'}</ComboboxEmpty><ComboboxList>{(e:Exercise)=><ComboboxItem key={e.id} value={e}><div>{e.name}{e.source==='USER'&&<span className="custom-exercise-badge">Custom</span>}<small className="muted block">{[e.muscle,e.equipment].filter(Boolean).join(' · ')||'Your exercise'}</small></div></ComboboxItem>}</ComboboxList>{createButton}</ComboboxContent></Combobox>
+  {!open&&createButton}
+ </>}</div>;
+}
+export function Field({label,children}: {label:string;children:React.ReactNode}){return <label className="field"><span>{label}</span>{children}</label>}
+export function CycleStrip({days,labelLimit,activeIndex}:{days:{type:string;name:string}[];labelLimit?:number;activeIndex?:number}){return <div className="cycle">{days.map((d,i)=><span className={(d.type==='REST'?'rest':'')+(i===activeIndex?' active':'')} aria-current={i===activeIndex?'step':undefined} key={i} title={labelLimit?d.name:undefined} aria-label={labelLimit?`Day ${i+1}: ${d.name}`:undefined}><small>{i+1}</small> {labelLimit?cardLabel(d.name,labelLimit):d.name}</span>)}</div>}

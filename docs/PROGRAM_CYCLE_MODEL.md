@@ -1,0 +1,13 @@
+# Completion-driven programs
+
+This replaces the former calendar-based schedule model. Programs contain an ordered list of workouts. Finishing a program workout commits its results and advances once, including partial or intentionally skipped work. Completing individual sets, exiting, discarding, correcting History, resting, and the passage of time do not advance the program. Unscheduled workouts are recorded without advancing it.
+
+`Schedule.cycleState` stores the active application, workout index, cycle number, and optional queued version. Existing schedule/application fields remain as activation audit metadata and references for immutable History snapshots. They no longer assign workouts to calendar dates. New versions save workout-only sequences; legacy Rest entries are excluded from the active cycle without modifying old saved versions or recorded sessions.
+
+Manage program shows the current program/version and actual cycle position. Apply now starts the selected version at Workout 1, Cycle 1. It is blocked while a workout is active so that session can be finished or discarded explicitly. Apply after current cycle queues a version, then activates it only when the last workout is finished. A queued change can be cancelled. Version edits and transitions never rewrite existing History or session prescriptions.
+
+The Schedule calendar records actual workouts. Today offers the next workout or Resume workout; past dates show recorded sessions or No workout recorded. Future dates are disabled and contain no workout assignments. The next workout can be started immediately after finishing, or after any number of rest days. No effective date, calendar preview, Move/Swap, scheduled Rest, or duplicate End schedule action remains in the active flow.
+
+Legacy active schedules acquire a cursor from their active session, otherwise from their last recorded workout, otherwise Workout 1. A legacy active session is preserved as recorded. A previously queued calendar version becomes a change after the current cycle. Migration is idempotent and is persisted once with a revision-checked write when legacy data is loaded (a concurrent update is re-read). Existing log snapshots, results, identifiers, timestamps, and old program versions are retained. Historical corrections cannot rewind or advance the stored cursor.
+
+Validation covers completion progression, same-day/multi-day cycles, partial and skipped finishes, discard/exit/resume, queue/cancel/boundary activation, immediate reset, immutable History, legacy migration, future-date blocking, and mobile/light/dark UI. The shared navigation uses the same frosted dock and high-contrast blue selected state on all four tabs.

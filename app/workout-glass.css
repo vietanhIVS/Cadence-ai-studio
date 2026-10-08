@@ -1,0 +1,74 @@
+.workout-view>.panel,.workout-view .exercisework{background:rgba(255,255,255,.72);backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);border:1px solid rgba(255,255,255,.85);box-shadow:0 10px 30px rgba(15,23,42,.04),inset 0 1px 1px rgba(255,255,255,.9);border-radius:20px}
+.shell .sessionbanner{background:rgba(239,246,255,.7);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(191,219,254,.8);border-radius:9999px;color:#1D4ED8;box-shadow:0 8px 24px rgba(37,99,235,.06);align-items:center}
+.shell .sessionbanner>div{min-width:0;flex-wrap:wrap;row-gap:4px}
+.shell .sessionbanner button{background:linear-gradient(135deg,#2563EB,#1D4ED8);color:#FFFFFF;font-weight:600;border-radius:999px;box-shadow:0 4px 14px rgba(37,99,235,.35);padding:10px 16px;min-height:44px;flex-shrink:0}
+.workout-view .workout .workout-save-status{display:inline-flex;align-items:center;gap:7px;background:rgba(37,99,235,.08);border:1px solid rgba(37,99,235,.2);color:#1D4ED8;font-size:.875rem}
+.workout-view .workout .workout-save-status[data-save-state=saved]::before{content:"";width:6px;height:6px;border-radius:50%;background:#2563EB;box-shadow:0 0 7px rgba(37,99,235,.4);flex-shrink:0}
+.workout-view .workoutprogress [data-slot=progress]{background:rgba(15,23,42,.06);border-radius:999px}
+.workout-view .workoutprogress [data-slot=progress-indicator]{background:linear-gradient(90deg,#3B82F6,#1D4ED8);border-radius:999px;box-shadow:0 2px 8px rgba(37,99,235,.4)}
+.workout-view .exercise-nav{padding-top:6px;padding-bottom:22px;scroll-padding-inline:4px;overscroll-behavior-x:contain}
+.workout-view .exercise-nav button{background:rgba(255,255,255,.5);border:1px solid rgba(255,255,255,.7);color:#5B6B82;min-height:48px}
+.workout-view .exercise-nav button.selected{background:linear-gradient(135deg,#2563EB,#1D4ED8);color:#FFFFFF;font-weight:600;border-color:rgba(255,255,255,.35);box-shadow:0 8px 18px rgba(37,99,235,.35)}
+.workout-view .exercise-nav button.selected .exnumber{background:rgba(255,255,255,.16);color:#FFFFFF}
+.workout-view .workout-exercise-heading .secondary,.workout-view .workout-rest .secondary{background:rgba(255,255,255,.8);border:1px solid rgba(15,23,42,.12);color:#0F172A;box-shadow:inset 0 1px 1px rgba(255,255,255,.95)}
+.workout-view .workout-exercise-heading .secondary:hover,.workout-view .workout-rest .secondary:hover{background:rgba(255,255,255,.95);box-shadow:0 4px 12px rgba(37,99,235,.1),inset 0 1px 1px #FFFFFF}
+.workout-view .workout-rest{background:rgba(248,250,252,.6);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.9);border-radius:16px;box-shadow:inset 0 2px 8px rgba(15,23,42,.025),0 1px 1px rgba(255,255,255,.8)}
+.workout-view .timerdigits{color:#2563EB;font-size:2rem;font-weight:700;line-height:1.2;font-variant-numeric:tabular-nums}
+.workout-view .workout fieldset>.inset{background:rgba(239,246,255,.5);border:1px dashed rgba(37,99,235,.25);border-radius:16px}
+.workout-view .workout fieldset>.inset>.textbtn{color:#2563EB;min-height:44px}
+.workout-view .workout input,.workout-view .workout textarea{background:rgba(255,255,255,.85);color:#0F172A;border-color:rgba(100,116,139,.25)}
+.workout-view .workout input::placeholder,.workout-view .workout textarea::placeholder{color:#5B6B82;opacity:1}
+.workout-view .workout .setdone{background:rgba(37,99,235,.09)}
+.workout-view .workout .setnext{background:rgba(255,255,255,.5);outline-color:#2563EB}
+.workout-view .workout .setskipped{opacity:1;background:rgba(15,23,42,.04)}
+.workout-view .workout .set-target{font-size:.875rem}
+.workout-view .workout .formfooter>.danger{color:#DC2626;border-radius:12px;min-height:44px}
+.workout-view .workout .formfooter>.danger:hover{background:rgba(239,68,68,.06)}
+/* #2563EB replaces the lighter #3B82F6 endpoint behind normal-size white text (AA). */
+.workout-view .workout .formfooter>.primary{background:linear-gradient(135deg,#2563EB,#1D4ED8);color:#FFFFFF;font-weight:700;border-radius:999px;min-height:48px;box-shadow:0 10px 24px rgba(29,78,216,.4),inset 0 1px 0 rgba(255,255,255,.4)}
+.workout-view .mainnav{background:rgba(255,255,255,.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
+.workout-view .workout-header-controls{flex-wrap:wrap}
+.workout-view .workout-session-controls{position:sticky;top:calc(8px + env(safe-area-inset-top,0px));z-index:10;display:flex;align-items:center;justify-content:flex-end;gap:8px;width:fit-content;margin:0 0 8px auto}
+.workout-view .workout-total-timer{display:inline-flex;align-items:center;gap:7px;min-height:36px;padding:6px 12px;border-radius:999px;background:#1E3A8A;color:#FFFFFF;border:1px solid rgba(255,255,255,.25);box-shadow:0 3px 10px rgba(15,23,42,.12),inset 0 1px 0 rgba(255,255,255,.12);font-size:.875rem;font-weight:600;line-height:1.4;white-space:nowrap;font-variant-numeric:tabular-nums}
+html:has(.workout-view){scroll-padding-top:64px}
+.workout-view .workout-rest.compact-rest{position:static;top:auto;z-index:auto;padding:10px 12px;backdrop-filter:none;-webkit-backdrop-filter:none;background:rgba(248,250,252,.6)}
+.workout-view .workout-rest.compact-rest[data-active=true]{background:rgba(219,234,254,.72)}
+.workout-view .compact-rest h3{font-size:.875rem;gap:6px}
+.workout-view .compact-rest .timerdigits{font-size:1.75rem}
+.workout-view .rest-compact-actions{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:8px}
+.workout-view .rest-adjustments{display:flex;gap:6px}
+.workout-view .rest-adjustments button,.workout-view .rest-skip{min-height:44px;min-width:44px;font-size:.875rem;padding:7px 9px}
+.workout-view .compact-rest .rest-manual{margin-top:8px;gap:8px}
+.workout-view .compact-rest .rest-manual input{width:64px;min-height:44px;padding:8px}
+.workout-view .compact-rest .rest-manual button{min-height:44px}
+.workout-view .compact-rest .rest-range-note{font-size:.75rem;margin-top:6px}
+@media(max-width:650px){
+ .workout-view .mainnav{left:max(16px,env(safe-area-inset-left,0px));right:max(16px,env(safe-area-inset-right,0px));bottom:calc(12px + env(safe-area-inset-bottom,0px));border-radius:28px}
+ .shell .sessionbanner{padding:12px 16px;gap:8px}.shell .sessionbanner>div{gap:4px 6px}.shell .sessionbanner button{padding:10px 12px}
+ /* The outer workout card already refracts the canvas; avoid a second large blur on phones. */
+ .workout-view .exercisework{backdrop-filter:none;-webkit-backdrop-filter:none}
+ .workout-view .workout .formfooter{gap:22px}
+}
+@media(prefers-color-scheme:dark){
+ .workout-view>.panel,.workout-view .exercisework{background:rgba(15,23,42,.76);border-color:rgba(255,255,255,.14);box-shadow:0 10px 30px rgba(0,0,0,.2),inset 0 1px 1px rgba(255,255,255,.1)}
+ .shell .sessionbanner{background:rgba(23,43,77,.8);border-color:rgba(147,197,253,.24);color:#BFDBFE}
+ .workout-view .workout .workout-save-status{background:rgba(37,99,235,.18);border-color:rgba(147,197,253,.3);color:#BFDBFE}
+ .workout-view .workout .workout-save-status[data-save-state=saved]::before{background:#93C5FD}
+ .workout-view .workoutprogress [data-slot=progress]{background:rgba(255,255,255,.1)}
+ .workout-view .exercise-nav button{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.12);color:#B4C3D9}
+ .workout-view .exercise-nav button.selected{background:linear-gradient(135deg,#2563EB,#1D4ED8);border-color:rgba(255,255,255,.35);color:#FFFFFF}
+ .workout-view .workout-rest{background:rgba(21,33,54,.9);border-color:rgba(255,255,255,.14);box-shadow:inset 0 2px 8px rgba(0,0,0,.12)}
+ .workout-view .timerdigits{color:#93C5FD}
+ .workout-view .workout-exercise-heading .secondary,.workout-view .workout-rest .secondary{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.18);color:#F1F5F9;box-shadow:inset 0 1px 1px rgba(255,255,255,.08)}
+ .workout-view .workout-exercise-heading .secondary:hover,.workout-view .workout-rest .secondary:hover{background:rgba(255,255,255,.12);box-shadow:0 4px 12px rgba(0,0,0,.12)}
+ .workout-view .workout fieldset>.inset{background:rgba(37,99,235,.08);border-color:rgba(147,197,253,.3)}
+ .workout-view .workout fieldset>.inset>.textbtn{color:#93C5FD}
+ .workout-view .workout input,.workout-view .workout textarea{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.2);color:#F1F5F9}
+ .workout-view .workout input::placeholder,.workout-view .workout textarea::placeholder{color:#B4C3D9}
+ .workout-view .workout .setdone{background:rgba(37,99,235,.16)}.workout-view .workout .setnext,.workout-view .workout .setskipped{background:rgba(255,255,255,.04)}
+ .workout-view .workout .formfooter>.danger{color:#FCA5A5}
+ .workout-view .mainnav{background:rgba(15,23,42,.96)}
+ .workout-view .workout-rest.compact-rest{background:rgba(21,33,54,.9)}
+ .workout-view .workout-rest.compact-rest[data-active=true]{background:rgba(37,99,235,.18)}
+}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.workout-view>.panel,.workout-view .exercisework,.workout-view .workout-rest,.workout-view .mainnav{background:var(--surface)}.shell .sessionbanner{background:var(--surface)}}

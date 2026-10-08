@@ -1,0 +1,45 @@
+import assert from 'node:assert/strict';
+import {test} from 'node:test';
+import {build} from 'esbuild';
+import {mkdir} from 'node:fs/promises';
+await mkdir('.sites-runtime/tests',{recursive:true});
+await build({stdin:{contents:"export * from './lib/cadence';export * from './lib/actions';export * from './lib/workout-rules';",resolveDir:process.cwd(),loader:'ts'},outfile:'.sites-runtime/tests/workout-domain.mjs',bundle:true,platform:'node',format:'esm',logLevel:'silent'});
+const {initialState,act,clone,withPresets,exerciseLibrary,workoutProgress,exerciseStatus,completion,updateRestForSets}=await import('../.sites-runtime/tests/workout-domain.mjs');
+const today='2026-10-06',timezone='Asia/Bangkok';
+function action(s,input){return act(s,input,today,timezone)}
+function fixture(){const s=initialState();action(s,{type:'duplicateProgram',id:s.programs[0].id});const p=s.programs.at(-1);action(s,{type:'createSchedule',programId:p.id,versionId:p.versions[0].id,date:today});action(s,{type:'startWorkout',date:today});return s}
+function save(s,change){const exercises=clone(s.session.exercises);change(exercises);action(s,{type:'saveSession',id:s.session.id,name:s.session.name,notes:s.session.notes,exercises})}
+function done(s,exercise=0,index=0){save(s,ex=>Object.assign(ex[exercise].sets[index],{weight:70,reps:10,done:true}))}
+test('done saves actual results and starts/replaces one plan-duration rest; final remaining set clears it',()=>{
+ const s=fixture();s.session.exercises[0].planned.sets.forEach(set=>set.restSeconds=120);const plan=clone(s.programs);
+ done(s);assert.equal(s.session.exercises[0].sets[0].weight,70);assert.ok(Math.abs(s.session.timerEnd-Date.now()-120000)<50);assert.equal(s.session.timerSource.setId,s.session.exercises[0].sets[0].id);
+ done(s,0,1);assert.equal(s.session.timerSource.setId,s.session.exercises[0].sets[1].id);assert.ok(Math.abs(s.session.timerEnd-Date.now()-120000)<50);
+ done(s,0,2);assert.equal(s.session.timerEnd,null);assert.equal(s.session.timerSource,null);assert.deepEqual(s.programs,plan);
+});
+test('extra sets count as pending for rest, remain session-only and can be removed',()=>{
+ const s=fixture(),e=s.session.exercises[0],plans=clone(s.programs);action(s,{type:'addSet',exerciseId:e.id});done(s);done(s,0,1);done(s,0,2);assert.ok(s.session.timerEnd);assert.equal(workoutProgress(s.session.exercises).done,3);done(s,0,3);assert.equal(s.session.timerEnd,null);assert.throws(()=>action(s,{type:'removeSet',exerciseId:e.id,setId:e.sets[3].id}),/Uncheck/);save(s,ex=>{ex[0].sets[3].done=false});action(s,{type:'removeSet',exerciseId:e.id,setId:e.sets[3].id});assert.equal(s.session.exercises[0].sets.length,3);assert.deepEqual(s.programs,plans);assert.throws(()=>action(s,{type:'removeSet',exerciseId:e.id,setId:e.sets[0].id}),/extra set/);
+});
+test('uncheck retains weight/reps, resets its own timer and cannot cancel a later completion timer',()=>{
+ const s=fixture();done(s);save(s,ex=>{ex[0].sets[0].done=false});assert.equal(s.session.timerEnd,null);assert.deepEqual([s.session.exercises[0].sets[0].weight,s.session.exercises[0].sets[0].reps],[70,10]);done(s);done(s,0,1);const timer=clone(s.session.timerSource),end=s.session.timerEnd;save(s,ex=>{ex[0].sets[0].done=false});assert.deepEqual(s.session.timerSource,timer);assert.equal(s.session.timerEnd,end);
+});
+test('skip requires partial confirmation, preserves performed sets, cancels rest, and counts only completed planned work',()=>{
+ const s=fixture(),plans=clone(s.programs);done(s);const e=s.session.exercises[0];assert.throws(()=>action(s,{type:'skipExercise',id:e.id,skipped:true}),/Confirm/);action(s,{type:'skipExercise',id:e.id,skipped:true,confirmRemaining:true});assert.equal(exerciseStatus(e),'PARTIALLY_COMPLETED');assert.ok(e.sets[0].done);assert.equal(e.sets[0].skipped,undefined);assert.ok(e.sets.slice(1).every(s=>s.skipped&&!s.done));assert.equal(s.session.timerEnd,null);assert.equal(workoutProgress(s.session.exercises).done,1);assert.equal(completion(s.session.exercises),false);assert.deepEqual(s.programs,plans);action(s,{type:'finishWorkout',confirmIncomplete:true});assert.equal(s.logs[0].status,'PARTIALLY_COMPLETED');assert.equal(s.logs[0].exercises[0].sets[0].weight,70);
+});
+test('zero-completed skip and Undo preserve values and obligations',()=>{
+ const s=fixture(),e=s.session.exercises[0];save(s,ex=>{ex[0].sets[0].weight=25});const current=s.session.exercises[0];action(s,{type:'skipExercise',id:e.id,skipped:true});assert.equal(exerciseStatus(current),'SKIPPED');assert.equal(workoutProgress(s.session.exercises).done,0);action(s,{type:'skipExercise',id:e.id,skipped:false});assert.equal(exerciseStatus(current),'PENDING');assert.ok(current.sets.every(s=>!s.skipped));assert.equal(current.sets[0].weight,25);
+});
+test('unchecking a completed set after partial skip returns it to pending, retaining the remaining skip flags',()=>{
+ const s=fixture();done(s);done(s,0,1);action(s,{type:'skipExercise',id:s.session.exercises[0].id,skipped:true,confirmRemaining:true});save(s,ex=>{ex[0].sets[0].done=false});const e=s.session.exercises[0];assert.equal(e.sets[0].skipped,undefined);assert.equal(e.sets[0].weight,70);assert.equal(e.sets[2].skipped,true);assert.equal(exerciseStatus(e),'IN_PROGRESS');done(s);assert.equal(exerciseStatus(s.session.exercises[0]),'PARTIALLY_COMPLETED');assert.equal(s.session.timerEnd,null);
+});
+test('legacy exercise-level skips migrate only pending sets; substitution restores their availability',()=>{
+ const s=fixture();done(s);s.session.exercises[0].skipped=true;withPresets(s);assert.equal(s.session.exercises[0].sets[0].skipped,undefined);assert.ok(s.session.exercises[0].sets.slice(1).every(s=>s.skipped));const e=s.session.exercises[1];e.skipped=true;withPresets(s);action(s,{type:'substitute',id:e.id,exerciseId:'fly'});assert.ok(e.sets.every(s=>!s.skipped));assert.equal(e.skipped,false);assert.equal(exerciseStatus(e),'PENDING');
+});
+test('timer supports Skip, +30 seconds, zero-duration rest and JSON reload',()=>{
+ let s=fixture();done(s);const end=s.session.timerEnd;action(s,{type:'timer',extend:30});assert.equal(s.session.timerEnd,end+30000);s=JSON.parse(JSON.stringify(s));assert.ok(s.session.timerSource);action(s,{type:'timer',seconds:null});assert.equal(s.session.timerEnd,null);assert.equal(s.session.timerSource,null);assert.throws(()=>action(s,{type:'timer',extend:30}),/Start rest/);s.session.exercises[0].planned.sets[1].restSeconds=0;const next=clone(s.session.exercises);next[0].sets[1]={...next[0].sets[1],done:true,weight:10,reps:8};updateRestForSets(s.session,next,90,123456);assert.equal(s.session.timerEnd,123456);
+});
+test('custom exercise identity is separate from prescriptions, reusable, and retains stable references through rename/archive',()=>{
+ let s=fixture();action(s,{type:'createCustomExercise',name:'Cable Y Raise',muscle:'Shoulders',equipment:'Cable',notes:'Library note',sets:99,rest:1});const custom=s.customExercises[0];assert.equal(custom.source,'USER');assert.equal(custom.sets,undefined);assert.equal(custom.rest,undefined);const days=clone(s.programs.at(-1).versions[0].days);days[0].exercises[0]={...days[0].exercises[0],exerciseId:custom.id,name:custom.name,sets:4,repMin:8,repMax:12,rest:60};action(s,{type:'saveProgram',name:'Custom plan',days});action(s,{type:'addExercise',exerciseId:custom.id});const row=s.session.exercises.at(-1);save(s,ex=>Object.assign(ex.at(-1).sets[0],{weight:7.5,reps:15,done:true}));action(s,{type:'finishWorkout',confirmIncomplete:true});const logs=clone(s.logs),id=custom.id;action(s,{type:'editCustomExercise',id,name:'Standing Cable Y Raise',muscle:'Shoulders',equipment:'Cable',notes:'New note'});assert.equal(custom.id,id);assert.deepEqual(s.logs,logs);assert.equal(row.exerciseId,id);assert.equal(exerciseLibrary(s).find(e=>e.id===id).name,'Standing Cable Y Raise');action(s,{type:'archiveCustomExercise',id,archived:true});assert.ok(!exerciseLibrary(s).some(e=>e.id===id));assert.ok(exerciseLibrary(s,true).some(e=>e.id===id));assert.deepEqual(s.logs,logs);const p=s.programs.at(-1);action(s,{type:'saveProgram',id:p.id,name:p.name,days:clone(p.versions[0].days)});s=withPresets(JSON.parse(JSON.stringify(s)));assert.equal(s.customExercises[0].id,id);action(s,{type:'archiveCustomExercise',id,archived:false});assert.ok(exerciseLibrary(s).some(e=>e.id===id));
+});
+test('system metadata is protected; custom names are validated; legacy state remains compatible',()=>{
+ const s=initialState();delete s.customExercises;withPresets(s);assert.deepEqual(s.customExercises,[]);for(const type of ['editCustomExercise','archiveCustomExercise'])assert.throws(()=>action(s,{type,id:'bench',name:'Changed',archived:true}),/Only your custom/);assert.throws(()=>action(s,{type:'createCustomExercise',name:' bench press '}),/already exists/);assert.throws(()=>action(s,{type:'createCustomExercise',name:' '}),/valid name/);action(s,{type:'createCustomExercise',name:'My move'});assert.throws(()=>action(s,{type:'createCustomExercise',name:'MY MOVE'}),/already exists/);
+});

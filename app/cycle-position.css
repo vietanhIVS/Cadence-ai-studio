@@ -1,0 +1,16 @@
+.start-position-picker,.change-workout-dialog fieldset{display:grid;gap:8px;margin:18px 0;padding:0;border:0}
+.start-position-picker legend,.change-workout-dialog legend{font-weight:700;color:var(--foreground);margin-bottom:4px}
+.start-position-picker>label,.change-workout-dialog fieldset>label{display:flex;align-items:center;gap:10px;min-height:46px;padding:10px 12px;border:1px solid var(--border);border-radius:12px;background:rgba(255,255,255,.58);cursor:pointer}
+.start-position-picker input,.change-workout-dialog input[type=radio]{accent-color:#2563EB;width:18px;height:18px}
+.change-workout-dialog>.row{justify-content:flex-end;margin-top:18px}
+.workout-order-controls{align-items:end;gap:10px}
+.workout-order-controls>.field{flex:1;min-width:180px}
+.workout-order-controls .row{gap:6px}
+.workout-order-controls button{min-height:42px;padding-inline:10px}
+.cycle-position-actions{gap:8px;margin:12px 0 18px}
+.cycle-position-actions .skip-workout-action{color:#B45309;min-height:40px}
+.skipped-workout-note,.skipped-workouts>div>p{display:flex;align-items:center;gap:8px;color:#475569}
+.skipped-workout-note svg,.skipped-workouts svg{color:#B45309;flex:none}
+.skip-workout-dialog [data-slot=alert-dialog-footer]>.primary{background:#D97706;color:#fff}
+@media(max-width:480px){.workout-order-controls{align-items:stretch;flex-direction:column}.workout-order-controls .row{justify-content:flex-end}.workout-order-controls button{min-width:44px}}
+@media(prefers-color-scheme:dark){.start-position-picker>label,.change-workout-dialog fieldset>label{background:rgba(15,23,42,.28)}.skipped-workout-note,.skipped-workouts>div>p{color:#CBD5E1}}

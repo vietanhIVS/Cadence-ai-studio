@@ -1,0 +1,36 @@
+/* The dock is an overlay; its visibility never changes content geometry. */
+.shell .mainnav{gap:6px}
+.shell header{gap:12px}
+.shell header .brand{flex-shrink:0}
+.shell header>.row{min-width:0;justify-content:flex-end}
+.shell header .header-date{text-align:right}
+.shell.schedule-view .schedule-onboarding .onboarding-actions>button{width:220px;max-width:100%;height:50px;min-height:50px;padding:12px 20px}
+.shell.schedule-view .schedulegrid button.extra-workout{padding:12px 18px;min-height:44px}
+@media(max-width:650px){
+ .shell .mainnav{gap:4px}
+ .shell .mainnav [data-slot=tabs-trigger]{padding-inline:4px}
+ .shell.schedule-view .schedule-onboarding .onboarding-actions{gap:10px}
+ .shell.schedule-view .schedule-onboarding .onboarding-actions>button{width:100%;max-width:280px}
+ html:has(.mainnav){scroll-padding-bottom:calc(var(--cadence-dock-height,62px) + 28px + env(safe-area-inset-bottom,0px))}
+ .shell:has(.mainnav){min-height:100dvh;padding-bottom:calc(var(--cadence-dock-height,62px) + 28px + env(safe-area-inset-bottom,0px))}
+ .shell .mainnav{position:fixed;bottom:calc(12px + env(safe-area-inset-bottom,0px));z-index:20;transform:translateY(0);opacity:1;transition:transform .3s cubic-bezier(.22,1,.36,1),opacity .25s ease;will-change:transform}
+ .shell .mainnav[data-dock-hidden=true]{transform:translateY(calc(100% + 16px + env(safe-area-inset-bottom,0px)));opacity:0;pointer-events:none;transition:transform .48s cubic-bezier(.4,0,.2,1),opacity .38s ease .06s}
+ .dock-reveal:focus{position:fixed;left:16px;bottom:calc(12px + env(safe-area-inset-bottom,0px));width:auto;height:auto;clip:auto;clip-path:none;overflow:visible;padding:12px 18px;z-index:21;background:var(--surface);color:var(--foreground)}
+}
+.shell.schedule-view .calendar .week>button.istoday:not(.selected){border:1.5px solid #458CFF;box-shadow:inset 0 0 0 1px rgba(69,140,255,.15)}
+.shell.schedule-view .calendar .week>button.istoday:not(.selected) .weekday{color:#1738C9;font-weight:700}
+.shell.schedule-view .calendar .week .day-workout-count{display:flex;align-items:center;justify-content:center;gap:3px;overflow:visible;text-overflow:clip;white-space:nowrap;font-variant-numeric:tabular-nums}
+.day-workout-count svg{flex-shrink:0}
+@media(max-width:360px){.day-workout-count svg{display:none}}
+.calendar-today-return{min-height:44px;white-space:nowrap}
+.recent-workouts-list>.eyebrow{margin-bottom:12px}
+.shell.schedule-view .recent-workouts-list button.recentlog{gap:12px;min-height:82px;padding:14px 16px;border:1px solid rgba(255,255,255,.6);border-radius:20px;backdrop-filter:none;-webkit-backdrop-filter:none}
+.recent-workouts-list .recentlog+.recentlog{margin-top:10px}
+.recent-workouts-list .recentlog>div{flex:1;min-width:0}
+.recent-workouts-list .recentlog b{display:block;white-space:normal;overflow-wrap:anywhere;font-size:1rem;font-weight:700;line-height:1.4}
+.recent-workouts-list .recentlog p{margin-top:4px;font-size:.875rem;line-height:1.5}
+.recent-workouts-list .recentlog svg{flex-shrink:0}
+@media(max-width:650px){.calendar .calendar-controls{flex-wrap:wrap;justify-content:flex-end}.calendar .calendar-today-return{padding:7px 10px;font-size:.8rem}}
+@media(prefers-color-scheme:dark){.shell.schedule-view .calendar .week>button.istoday:not(.selected) .weekday{color:#BFDBFE}}
+@media(prefers-color-scheme:dark){.shell.schedule-view .recent-workouts-list button.recentlog{border-color:rgba(255,255,255,.14)}}
+@media(prefers-reduced-motion:reduce){.shell .mainnav,.shell .mainnav[data-dock-hidden=true]{transition:none}}
