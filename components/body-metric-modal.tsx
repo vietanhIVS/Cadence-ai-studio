@@ -155,9 +155,9 @@ export default function BodyMetricModal({
     if (!open) return;
     if (editingMetric) {
       setWeight(editingMetric.weight != null ? String(editingMetric.weight) : '');
-      const localIso = editingMetric.timestamp
-        ? new Date(editingMetric.timestamp).toISOString().slice(0, 16)
-        : new Date().toISOString().slice(0, 16);
+      const d = editingMetric.timestamp ? new Date(editingMetric.timestamp) : new Date();
+      const offsetMs = d.getTimezoneOffset() * 60000;
+      const localIso = new Date(d.getTime() - offsetMs).toISOString().slice(0, 16);
       setTimestamp(localIso);
       setNote(editingMetric.note ? editingMetric.note.slice(0, 150) : '');
       setBodyFat(editingMetric.bodyFatPercentage != null ? String(editingMetric.bodyFatPercentage) : '');
@@ -285,11 +285,11 @@ export default function BodyMetricModal({
   return (
     <Dialog open={open} onOpenChange={isOpen => { if (!isOpen && !busy) onClose(); }}>
       <DialogContent className="trainingdialog body-metric-dialog" showCloseButton={!busy}>
-        <DialogTitle className="flex items-center gap-2">
-          <Scale size={20} className="text-blue-500" />
-          {editingMetric ? 'Edit Body Metric' : 'Log Body Weight & Metrics'}
+        <DialogTitle className="flex items-center gap-2.5 pr-10 sm:pr-12 text-lg sm:text-xl font-bold leading-tight text-slate-900 dark:text-white">
+          <Scale size={20} className="text-blue-600 dark:text-blue-400 shrink-0" />
+          <span className="min-w-0">{editingMetric ? 'Edit Body Metric' : 'Log Body Weight & Metrics'}</span>
         </DialogTitle>
-        <DialogDescription>
+        <DialogDescription className="pr-8 text-sm text-slate-500 dark:text-slate-400">
           {editingMetric
             ? 'Update your recorded measurements.'
             : 'Record your daily weight. Expand below for body fat % and circumference tape measurements.'}
@@ -361,17 +361,19 @@ export default function BodyMetricModal({
           <div className="metric-advanced-accordion">
             <button
               type="button"
-              className="metric-advanced-toggle"
+              className="metric-advanced-toggle text-left"
               onClick={() => setShowAdvanced(!showAdvanced)}
             >
-              <div className="flex items-center gap-2">
-                <Sparkles size={16} className="text-amber-500" />
-                <span className="font-semibold text-sm">Circumferences & Body Composition</span>
+              <div className="flex items-center gap-2.5 text-left flex-1 min-w-0 pr-2">
+                <Sparkles size={16} className="text-amber-500 shrink-0" />
+                <span className="font-semibold text-sm leading-snug text-left text-slate-800 dark:text-slate-200">
+                  Circumferences & Body Composition
+                </span>
                 {advancedFieldsCount > 0 && (
-                  <span className="metric-badge-count">{advancedFieldsCount} filled</span>
+                  <span className="metric-badge-count shrink-0">{advancedFieldsCount} filled</span>
                 )}
               </div>
-              {showAdvanced ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
+              {showAdvanced ? <ChevronUp size={18} className="shrink-0 text-slate-500" /> : <ChevronDown size={18} className="shrink-0 text-slate-500" />}
             </button>
 
             {showAdvanced && (

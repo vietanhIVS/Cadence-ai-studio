@@ -62,7 +62,7 @@ test('canonical kg targets retain pounds display per set and explicit zero remai
 test('rich Push/Pull/Legs preset data retains heavy phases, long rests, warmup and group/RPE/dropset metadata',()=>{
  const s=initialState(),source=clone(s.programs[0].versions[0].days);source[0].exercises[1]=normalizePlan(rich(),2);
  const pull=source[1].exercises;pull[1].sets[0].repMin=4;pull[1].sets[0].repMax=6;pull[1].sets[0].restSeconds=180;pull[1].sets[0].targetRpe=9;pull[1].notes='Use straps';pull[2].groupId='A';pull[2].groupType='SUPERSET';pull[2].groupOrder=1;pull[3].groupId='A';pull[3].groupType='SUPERSET';pull[3].groupOrder=2;pull[3].sets[2].notes='Dropset';
- source[3].notes='Warm up 5–10 minutes before squats.';source[3].exercises[0].sets.forEach(set=>set.restSeconds=180);
+ source[2].notes='Warm up 5–10 minutes before squats.';source[2].exercises[0].sets.forEach(set=>set.restSeconds=180);
  action(s,{type:'saveProgram',name:'Rich preset copy',days:source});const roundTrip=JSON.parse(JSON.stringify(s)).programs.at(-1).versions[0].days;
- assert.deepEqual(roundTrip,source);assert.equal(roundTrip[1].exercises[1].sets[0].restSeconds,180);assert.equal(roundTrip[3].notes,source[3].notes);
+ assert.deepEqual(roundTrip,source);assert.equal(roundTrip[1].exercises[1].sets[0].restSeconds,180);assert.equal(roundTrip[2].notes,source[2].notes);
 });

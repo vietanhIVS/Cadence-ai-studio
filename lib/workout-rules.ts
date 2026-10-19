@@ -44,7 +44,10 @@ export function updateRestForSets(session:Session,next:ActualExercise[],defaultR
     // Re-completing an earlier set is a correction, not a new rest interval
     // in the current progression. Leave any later set's timer untouched.
     if(!completionAdvances(exercise,index))continue;
-    if(exercise.sets.some(s=>!s.done&&!s.skipped)){
+    const hasRemainingInExercise=exercise.sets.some(s=>!s.done&&!s.skipped);
+    const hasRemainingInWorkout=next.some(e=>e.id!==exercise.id&&e.sets.some(s=>!s.done&&!s.skipped));
+    const isUnscheduled=!session.occurrence;
+    if(hasRemainingInExercise||hasRemainingInWorkout||isUnscheduled){
      session.timerEnd=now+(setPrescription(exercise,set)?.restSeconds??defaultRest)*1000;
      session.timerSource={exerciseId:exercise.id,setId:set.id};session.timerId=`${exercise.id}:${set.id}:${now}`;
     }else{session.timerEnd=null;session.timerId=null;session.timerSource=null}

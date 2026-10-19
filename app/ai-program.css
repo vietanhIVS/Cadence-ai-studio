@@ -310,6 +310,8 @@
   padding: 1.125rem 1.25rem;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
 }
 
 .ai-coach-card-header {
@@ -329,7 +331,7 @@
 .ai-coach-card-active {
   background: rgba(255, 255, 255, 0.75);
   border: 1px solid rgba(255, 255, 255, 0.9);
-  box-shadow: 0 4px 16px rgba(37, 99, 235, 0.05), inset 0 1px 1px rgba(255, 255, 255, 0.9);
+  box-shadow: 0 8px 24px rgba(37, 99, 235, 0.08), inset 0 1px 1px rgba(255, 255, 255, 0.95);
   cursor: pointer;
 }
 

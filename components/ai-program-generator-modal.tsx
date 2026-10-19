@@ -259,25 +259,25 @@ export default function AIProgramGeneratorModal({
 
   return (
     <Dialog open={open} onOpenChange={isOpen => { if (!isOpen && !isApplying) onClose(); }}>
-      <DialogContent className="ai-program-modal-content max-w-xl p-0 overflow-hidden rounded-2xl border-white/60 bg-white/90 backdrop-blur-2xl shadow-2xl dark:bg-slate-900/90 dark:border-slate-800">
+      <DialogContent className="ai-program-modal-content max-w-xl p-0 overflow-hidden rounded-2xl border-white/60 bg-white/90 backdrop-blur-2xl shadow-2xl dark:bg-slate-900/90 dark:border-slate-800 flex flex-col max-h-[88dvh]">
         <DialogTitle className="sr-only">AI Program Generator</DialogTitle>
         <DialogDescription className="sr-only">
           Generate an intelligent, progressive workout routine customized to your body and equipment.
         </DialogDescription>
 
         {/* Modal Top Bar (Option 1: Clean Left-Aligned Header) */}
-        <div className="relative px-6 pt-6 pb-4 border-b border-slate-200/60 dark:border-slate-800/80 bg-gradient-to-r from-blue-50/70 via-indigo-50/50 to-purple-50/70 dark:from-blue-950/20 dark:via-indigo-950/10 dark:to-purple-950/20 text-left">
+        <div className="relative px-6 pt-6 pb-4 border-b border-slate-200/60 dark:border-slate-800/80 bg-gradient-to-r from-blue-50/70 via-indigo-50/50 to-purple-50/70 dark:from-blue-950/20 dark:via-indigo-950/10 dark:to-purple-950/20 text-left shrink-0">
           <div className="flex items-start gap-3">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-500 text-white flex items-center justify-center shadow-md shadow-blue-500/25 shrink-0 mt-0.5">
               <Sparkles size={20} className="animate-pulse" />
             </div>
             <div className="text-left flex-1 min-w-0 pr-8">
-              <div className="flex items-center gap-2">
-                <h2 className="text-base font-bold text-slate-900 dark:text-slate-100">
+              <div className="flex items-center gap-1.5">
+                <h2 className="text-base font-bold text-slate-900 dark:text-slate-100 leading-none">
                   Cadence AI Coach
                 </h2>
-                <span className="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full bg-blue-100 dark:bg-blue-900/60 text-blue-700 dark:text-blue-300 shrink-0">
-                  Pro
+                <span className="text-[9px] leading-none font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-full bg-blue-100 dark:bg-blue-900/60 text-blue-700 dark:text-blue-300 shrink-0 inline-flex items-center">
+                  PRO
                 </span>
               </div>
               <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 text-left leading-snug">
@@ -291,7 +291,7 @@ export default function AIProgramGeneratorModal({
         </div>
 
         {/* Modal Body Container */}
-        <div className="px-6 py-5 max-h-[78dvh] overflow-y-auto text-left">
+        <div className="px-6 py-5 flex-1 overflow-y-auto text-left relative">
           {errorMessage && (
             <div className="mb-4 p-3 rounded-xl bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-800/50 text-red-700 dark:text-red-300 text-xs flex items-center gap-2">
               <Info size={16} className="shrink-0" />
@@ -432,9 +432,12 @@ export default function AIProgramGeneratorModal({
             <div className="space-y-5">
               {/* Field 1: Primary Goal */}
               <div className="space-y-2">
-                <label className="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 flex items-center justify-between">
-                  <span>1. Primary Goal</span>
-                  <span className="text-[11px] font-normal text-blue-600 dark:text-blue-400">{goal}</span>
+                <label className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 flex items-center justify-between">
+                  <span className="flex items-center gap-2">
+                    <span className="w-5 h-5 rounded-full bg-blue-100 dark:bg-blue-900/60 text-blue-700 dark:text-blue-300 text-xs font-bold inline-flex items-center justify-center">1</span>
+                    Primary Goal
+                  </span>
+                  <span className="text-[11px] font-semibold text-blue-600 dark:text-blue-400">{goal}</span>
                 </label>
                 <div className="grid grid-cols-2 gap-2">
                   {GOAL_OPTIONS.map(opt => {
@@ -447,8 +450,8 @@ export default function AIProgramGeneratorModal({
                         onClick={() => setGoal(opt.value)}
                         className={`p-3 rounded-xl text-left border transition-all flex flex-col gap-1 min-h-[48px] ${
                           isSelected
-                            ? 'bg-blue-600 text-white border-blue-600 shadow-md shadow-blue-500/20'
-                            : 'bg-white/80 dark:bg-slate-800/60 text-slate-800 dark:text-slate-200 border-slate-200 dark:border-slate-700 hover:border-slate-300'
+                            ? 'bg-blue-600 text-white border-blue-600 shadow-md shadow-blue-500/25'
+                            : 'bg-white/70 dark:bg-slate-800/50 backdrop-blur-md text-slate-800 dark:text-slate-200 border-white/80 dark:border-white/10 shadow-xs hover:bg-white/90 dark:hover:bg-slate-800/80'
                         }`}
                       >
                         <div className="flex items-center gap-2">
@@ -466,9 +469,12 @@ export default function AIProgramGeneratorModal({
 
               {/* Field 2: Weekly Frequency */}
               <div className="space-y-2">
-                <label className="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 flex items-center justify-between">
-                  <span>2. Weekly Frequency</span>
-                  <span className="text-[11px] font-normal text-blue-600 dark:text-blue-400">{frequency}</span>
+                <label className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 flex items-center justify-between">
+                  <span className="flex items-center gap-2">
+                    <span className="w-5 h-5 rounded-full bg-blue-100 dark:bg-blue-900/60 text-blue-700 dark:text-blue-300 text-xs font-bold inline-flex items-center justify-center">2</span>
+                    Weekly Frequency
+                  </span>
+                  <span className="text-[11px] font-semibold text-blue-600 dark:text-blue-400">{frequency}</span>
                 </label>
                 <div className="grid grid-cols-3 gap-2">
                   {FREQUENCY_OPTIONS.map(opt => {
@@ -480,8 +486,8 @@ export default function AIProgramGeneratorModal({
                         onClick={() => setFrequency(opt.value)}
                         className={`p-2.5 rounded-xl text-center border transition-all flex flex-col items-center justify-center min-h-[48px] ${
                           isSelected
-                            ? 'bg-blue-600 text-white border-blue-600 shadow-md shadow-blue-500/20'
-                            : 'bg-white/80 dark:bg-slate-800/60 text-slate-800 dark:text-slate-200 border-slate-200 dark:border-slate-700 hover:border-slate-300'
+                            ? 'bg-blue-600 text-white border-blue-600 shadow-md shadow-blue-500/25'
+                            : 'bg-white/70 dark:bg-slate-800/50 backdrop-blur-md text-slate-800 dark:text-slate-200 border-white/80 dark:border-white/10 shadow-xs hover:bg-white/90 dark:hover:bg-slate-800/80'
                         }`}
                       >
                         <span className="text-xs font-bold">{opt.label}</span>
@@ -496,9 +502,12 @@ export default function AIProgramGeneratorModal({
 
               {/* Field 3: Available Equipment */}
               <div className="space-y-2">
-                <label className="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 flex items-center justify-between">
-                  <span>3. Available Equipment</span>
-                  <span className="text-[11px] font-normal text-blue-600 dark:text-blue-400">{equipment}</span>
+                <label className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 flex items-center justify-between">
+                  <span className="flex items-center gap-2">
+                    <span className="w-5 h-5 rounded-full bg-blue-100 dark:bg-blue-900/60 text-blue-700 dark:text-blue-300 text-xs font-bold inline-flex items-center justify-center">3</span>
+                    Available Equipment
+                  </span>
+                  <span className="text-[11px] font-semibold text-blue-600 dark:text-blue-400">{equipment}</span>
                 </label>
                 <div className="grid grid-cols-3 gap-2">
                   {EQUIPMENT_OPTIONS.map(opt => {
@@ -510,8 +519,8 @@ export default function AIProgramGeneratorModal({
                         onClick={() => setEquipment(opt.value)}
                         className={`p-2.5 rounded-xl text-center border transition-all flex flex-col items-center justify-center min-h-[48px] ${
                           isSelected
-                            ? 'bg-blue-600 text-white border-blue-600 shadow-md shadow-blue-500/20'
-                            : 'bg-white/80 dark:bg-slate-800/60 text-slate-800 dark:text-slate-200 border-slate-200 dark:border-slate-700 hover:border-slate-300'
+                            ? 'bg-blue-600 text-white border-blue-600 shadow-md shadow-blue-500/25'
+                            : 'bg-white/70 dark:bg-slate-800/50 backdrop-blur-md text-slate-800 dark:text-slate-200 border-white/80 dark:border-white/10 shadow-xs hover:bg-white/90 dark:hover:bg-slate-800/80'
                         }`}
                       >
                         <span className="text-xs font-bold">{opt.label}</span>
@@ -526,9 +535,12 @@ export default function AIProgramGeneratorModal({
 
               {/* Field 4: Target Session Duration */}
               <div className="space-y-2">
-                <label className="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 flex items-center justify-between">
-                  <span>4. Target Session Duration</span>
-                  <span className="text-[11px] font-normal text-blue-600 dark:text-blue-400">{duration}</span>
+                <label className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 flex items-center justify-between">
+                  <span className="flex items-center gap-2">
+                    <span className="w-5 h-5 rounded-full bg-blue-100 dark:bg-blue-900/60 text-blue-700 dark:text-blue-300 text-xs font-bold inline-flex items-center justify-center">4</span>
+                    Target Session Duration
+                  </span>
+                  <span className="text-[11px] font-semibold text-blue-600 dark:text-blue-400">{duration}</span>
                 </label>
                 <div className="grid grid-cols-3 gap-2">
                   {DURATION_OPTIONS.map(opt => {
@@ -540,8 +552,8 @@ export default function AIProgramGeneratorModal({
                         onClick={() => setDuration(opt.value)}
                         className={`p-2.5 rounded-xl text-center border transition-all flex flex-col items-center justify-center min-h-[48px] ${
                           isSelected
-                            ? 'bg-blue-600 text-white border-blue-600 shadow-md shadow-blue-500/20'
-                            : 'bg-white/80 dark:bg-slate-800/60 text-slate-800 dark:text-slate-200 border-slate-200 dark:border-slate-700 hover:border-slate-300'
+                            ? 'bg-blue-600 text-white border-blue-600 shadow-md shadow-blue-500/25'
+                            : 'bg-white/70 dark:bg-slate-800/50 backdrop-blur-md text-slate-800 dark:text-slate-200 border-white/80 dark:border-white/10 shadow-xs hover:bg-white/90 dark:hover:bg-slate-800/80'
                         }`}
                       >
                         <span className="text-xs font-bold">{opt.label}</span>
@@ -573,21 +585,21 @@ export default function AIProgramGeneratorModal({
               </div>
 
               {/* Navigation CTA */}
-              <div className="pt-2 flex items-center justify-between gap-3">
+              <div className="sticky bottom-0 -mx-6 px-6 pt-3.5 pb-6 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-t border-slate-200/60 dark:border-slate-800/60 mt-4 flex items-center justify-between gap-3 shrink-0 z-10 shadow-[0_-4px_12px_rgba(0,0,0,0.03)]">
                 <button
                   type="button"
                   onClick={() => setStep('select')}
-                  className="px-4 py-2.5 rounded-xl text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+                  className="px-4 py-3 rounded-full text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors shrink-0"
                 >
                   Back
                 </button>
                 <button
                   type="button"
                   onClick={() => handleStartGeneration('preferences')}
-                  className="flex-1 px-5 py-3 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white text-xs font-bold shadow-lg shadow-blue-500/25 flex items-center justify-center gap-2 transition-all"
+                  className="flex-1 min-h-[46px] px-5 py-3 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white text-xs font-bold shadow-lg shadow-blue-500/25 flex items-center justify-center gap-2 leading-none transition-all active:scale-[0.98]"
                 >
-                  <Sparkles size={16} />
-                  <span>Generate Cycle with AI</span>
+                  <Sparkles size={16} className="shrink-0" />
+                  <span className="leading-none whitespace-nowrap">Generate</span>
                 </button>
               </div>
             </div>
@@ -622,14 +634,14 @@ export default function AIProgramGeneratorModal({
 
           {/* STEP 4: PREVIEW GENERATED PROGRAM */}
           {step === 'preview' && generatedProgram && (
-            <div className="space-y-4">
+            <div className="space-y-4 pb-[130px]">
               {/* Program Overview Banner */}
-              <div className="p-4 rounded-xl bg-gradient-to-br from-blue-50/80 to-indigo-50/80 dark:from-blue-950/30 dark:to-indigo-950/20 border border-blue-200/60 dark:border-blue-800/40 space-y-1.5">
+              <div className="p-4.5 rounded-2xl bg-gradient-to-br from-blue-50/90 via-indigo-50/70 to-purple-50/80 dark:from-blue-950/40 dark:via-indigo-950/30 dark:to-purple-950/30 border border-white/80 dark:border-white/15 backdrop-blur-xl shadow-sm space-y-2">
                 <div className="flex items-center justify-between gap-2">
-                  <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-blue-600 text-white">
+                  <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-blue-600 text-white shadow-xs">
                     {selectedRoute === 'history' ? 'History-Optimized' : goal}
                   </span>
-                  <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">
+                  <span className="text-xs font-semibold text-slate-600 dark:text-slate-300">
                     {generatedProgram.days.length} Workouts per Cycle
                   </span>
                 </div>
@@ -657,7 +669,7 @@ export default function AIProgramGeneratorModal({
                       className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all ${
                         selectedPreviewDay === idx
                           ? 'bg-blue-600 text-white shadow-sm'
-                          : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700'
+                          : 'bg-white/70 dark:bg-slate-800/60 backdrop-blur-sm border border-white/60 dark:border-white/10 text-slate-700 dark:text-slate-300 hover:bg-white/90 dark:hover:bg-slate-800'
                       }`}
                     >
                       Day {idx + 1}
@@ -668,7 +680,7 @@ export default function AIProgramGeneratorModal({
 
               {/* Selected Day Workout Details */}
               {generatedProgram.days[selectedPreviewDay] && (
-                <div className="p-4 rounded-xl border border-slate-200 dark:border-slate-700 bg-white/60 dark:bg-slate-800/40 space-y-3">
+                <div className="p-4.5 rounded-2xl border border-white/80 dark:border-white/15 bg-white/70 dark:bg-slate-800/50 backdrop-blur-xl shadow-sm space-y-3.5">
                   <div className="flex items-center justify-between">
                     <div>
                       <h4 className="text-xs font-bold text-slate-900 dark:text-slate-100 uppercase tracking-wider">
@@ -689,29 +701,36 @@ export default function AIProgramGeneratorModal({
                   <div className="space-y-2">
                     {generatedProgram.days[selectedPreviewDay].exercises.map((ex, exIdx) => {
                       const setsCount = ex.sets.length;
-                      const repSummary = ex.sets.map(s => s.repMin === s.repMax ? `${s.repMin}` : `${s.repMin}–${s.repMax}`).join(' / ');
+                      const firstSet = ex.sets[0];
+                      const allSameReps = ex.sets.every(
+                        s => s.repMin === firstSet?.repMin && s.repMax === firstSet?.repMax
+                      );
+                      const repSummary = allSameReps && firstSet
+                        ? (firstSet.repMin === firstSet.repMax ? `${firstSet.repMin}` : `${firstSet.repMin}–${firstSet.repMax}`)
+                        : ex.sets.map(s => s.repMin === s.repMax ? `${s.repMin}` : `${s.repMin}–${s.repMax}`).join(' / ');
+                      const repMetric = `${setsCount} sets × ${repSummary} reps`;
                       const restSummary = `${ex.sets[0]?.restSeconds || 90}s rest`;
 
                       return (
                         <div
                           key={ex.exerciseId + exIdx}
-                          className="p-3 rounded-lg border border-slate-100 dark:border-slate-800 bg-white/90 dark:bg-slate-900/60 space-y-1.5"
+                          className="p-3.5 rounded-xl border border-white/80 dark:border-white/10 bg-white/75 dark:bg-slate-800/60 backdrop-blur-md shadow-xs space-y-2 transition-all hover:bg-white/85"
                         >
                           <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-2">
-                              <span className="w-5 h-5 rounded-full bg-blue-100 dark:bg-blue-900/60 text-blue-700 dark:text-blue-300 text-[10px] font-bold flex items-center justify-center">
+                            <div className="flex items-center gap-2.5">
+                              <span className="w-6 h-6 rounded-full bg-blue-600 text-white text-xs font-bold flex items-center justify-center shrink-0 shadow-xs">
                                 {exIdx + 1}
                               </span>
-                              <span className="text-xs font-bold text-slate-900 dark:text-slate-100">
+                              <span className="text-xs sm:text-sm font-bold text-slate-900 dark:text-slate-100">
                                 {ex.name}
                               </span>
                             </div>
-                            <span className="text-[11px] font-semibold text-slate-500 dark:text-slate-400">
-                              {setsCount} sets · {repSummary} reps
+                            <span className="text-xs font-semibold text-slate-600 dark:text-slate-300">
+                              {repMetric}
                             </span>
                           </div>
 
-                          <div className="flex items-center gap-3 text-[10px] text-slate-500 dark:text-slate-400 pl-7">
+                          <div className="flex items-center gap-3 text-[11px] text-slate-500 dark:text-slate-400 pl-8.5">
                             <span>⏱ Rest: {restSummary}</span>
                             {ex.sets[0]?.targetRpe && <span>🎯 RPE {ex.sets[0].targetRpe}</span>}
                             {ex.sets[0]?.targetWeight && <span>⚖️ ~{ex.sets[0].targetWeight} {unit}</span>}
@@ -724,15 +743,16 @@ export default function AIProgramGeneratorModal({
               )}
 
               {/* Actions Footer */}
-              <div className="pt-2 space-y-2">
-                <div className="flex items-center gap-2">
+              <div className="sticky bottom-0 -mx-6 px-6 pt-3.5 pb-6 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-t border-slate-200/60 dark:border-slate-800/60 space-y-2.5 z-10 shrink-0 shadow-[0_-4px_12px_rgba(0,0,0,0.03)]">
+                {/* Secondary Actions (Row above primary CTA) */}
+                <div className="flex items-center gap-2.5">
                   <button
                     type="button"
                     onClick={() => handleStartGeneration(selectedRoute)}
                     disabled={isApplying}
-                    className="flex-1 py-2.5 px-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 flex items-center justify-center gap-1.5 transition-colors"
+                    className="flex-1 py-2.5 px-4 rounded-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 flex items-center justify-center gap-1.5 transition-colors shadow-sm"
                   >
-                    <RotateCcw size={14} />
+                    <RotateCcw size={14} className="shrink-0" />
                     <span>Regenerate</span>
                   </button>
 
@@ -740,33 +760,33 @@ export default function AIProgramGeneratorModal({
                     type="button"
                     onClick={handleEditInEditor}
                     disabled={isApplying}
-                    className="flex-1 py-2.5 px-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 flex items-center justify-center gap-1.5 transition-colors"
+                    className="flex-1 py-2.5 px-4 rounded-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 flex items-center justify-center gap-1.5 transition-colors shadow-sm"
                   >
-                    <Edit3 size={14} />
-                    <span>Edit in Program Editor</span>
+                    <Edit3 size={14} className="shrink-0" />
+                    <span>Edit Split</span>
                   </button>
                 </div>
 
-                <div className="flex flex-col gap-2 pt-1">
-                  <button
-                    type="button"
-                    onClick={handleApplyActive}
-                    disabled={isApplying}
-                    className="w-full py-3.5 px-4 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white text-xs font-bold shadow-lg shadow-blue-500/30 flex items-center justify-center gap-2 transition-all disabled:opacity-50"
-                  >
-                    <Check size={16} />
-                    <span>{isApplying ? 'Activating Cycle...' : 'Apply to Schedule / Set as Active'}</span>
-                  </button>
+                {/* Primary Sticky CTA */}
+                <button
+                  type="button"
+                  onClick={handleApplyActive}
+                  disabled={isApplying}
+                  className="w-full py-3.5 px-5 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white text-xs font-bold shadow-lg shadow-blue-500/30 flex items-center justify-center gap-2 leading-none transition-all disabled:opacity-50 active:scale-[0.99]"
+                >
+                  <Check size={16} className="shrink-0" />
+                  <span className="leading-none">{isApplying ? 'Activating Cycle...' : 'Apply & Start Program'}</span>
+                </button>
 
-                  <button
-                    type="button"
-                    onClick={handleSaveOnly}
-                    disabled={isApplying}
-                    className="w-full py-2.5 text-center text-xs font-medium text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 transition-colors"
-                  >
-                    Save to My Programs without activating
-                  </button>
-                </div>
+                {/* Tertiary Action */}
+                <button
+                  type="button"
+                  onClick={handleSaveOnly}
+                  disabled={isApplying}
+                  className="w-full py-1 text-center text-xs font-medium text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200 transition-colors underline-offset-4 hover:underline"
+                >
+                  Save as draft without activating
+                </button>
               </div>
             </div>
           )}

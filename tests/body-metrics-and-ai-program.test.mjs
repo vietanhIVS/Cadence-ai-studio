@@ -27,7 +27,8 @@ test('body metric tracking adds, edits, and deletes measurement logs', () => {
   const log1 = {
     type: 'logBodyMetric',
     weight: 75.5,
-    note: 'Morning weigh-in'
+    note: 'Morning weigh-in',
+    timestamp: '2026-10-07T08:00:00.000Z'
   };
   state = act(state, log1, '2026-10-08', 'UTC');
   assert.equal(state.bodyMetrics.length, 1);

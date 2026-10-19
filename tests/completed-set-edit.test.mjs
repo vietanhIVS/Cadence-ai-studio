@@ -19,7 +19,7 @@ test('older uncheck/recheck changes progress but keeps later rest and progressio
  save(s,ex=>{ex[0].sets[0].done=false});action(s,{type:'timer',seconds:null});complete(s,0);assert.equal(s.session.timerEnd,null);
 });
 test('own-source uncheck stops rest; sequential recheck starts it; final completion stops it',()=>{
- const s=fixture();complete(s,0);save(s,ex=>{ex[0].sets[0].done=false});assert.equal(s.session.timerEnd,null);assert.equal(s.session.timerSource,null);assert.equal(workoutProgress(s.session.exercises).done,0);complete(s,0);assert.ok(s.session.timerEnd);assert.equal(s.session.timerSource.setId,s.session.exercises[0].sets[0].id);complete(s,1);complete(s,2);assert.equal(s.session.timerEnd,null);
+ const s=fixture();complete(s,0);save(s,ex=>{ex[0].sets[0].done=false});assert.equal(s.session.timerEnd,null);assert.equal(s.session.timerSource,null);assert.equal(workoutProgress(s.session.exercises).done,0);complete(s,0);assert.ok(s.session.timerEnd);assert.equal(s.session.timerSource.setId,s.session.exercises[0].sets[0].id);complete(s,1);complete(s,2);assert.ok(s.session.timerEnd);assert.equal(s.session.timerSource.setId,s.session.exercises[0].sets[2].id);save(s,ex=>{ex.slice(1).forEach(e=>e.sets.forEach(st=>Object.assign(st,{weight:70,reps:10,done:true})))});assert.equal(s.session.timerEnd,null);
 });
 test('higher completed extra sets prevent older rechecks from starting rest',()=>{
  const s=fixture();action(s,{type:'addSet',exerciseId:s.session.exercises[0].id});complete(s,3);const end=s.session.timerEnd,source=clone(s.session.timerSource);complete(s,0);assert.equal(s.session.timerEnd,end);assert.deepEqual(s.session.timerSource,source);assert.equal(workoutProgress(s.session.exercises).done,1);
